@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="音声日記">
+<title>音声日記</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --purple:#7F77DD;--purple-light:#EEEDFE;--purple-dark:#3C3489;--purple-mid:#534AB7;
+  --green-light:#EAF3DE;--green-dark:#3B6D11;
+  --red:#E24B4A;--red-light:#FCEBEB;--red-dark:#A32D2D;
+  --bg:#fff;--bg2:#f5f5f7;--bg3:#ececec;
+  --text:#1a1a1a;--text2:#666;--text3:#999;
+  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.2);
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1c1c1e;--bg2:#2c2c2e;--bg3:#3a3a3c;
+    --text:#fff;--text2:#ababab;--text3:#6e6e73;
+    --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);
+    --purple-light:#2d2b5c;--green-light:#1a2e0f;
+  }
+}
+html,body{height:100%;overflow:hidden;background:#000;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;display:flex;justify-content:center;}
+.app{width:100%;max-width:430px;height:100%;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden;}
+
+/* Status bar */
+.sbar{background:#1a1a2e;color:#fff;font-size:12px;padding:env(safe-area-inset-top, 12px) 20px 8px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+
+/* Screens */
+.screen{display:none;flex-direction:column;flex:1;overflow:hidden;}
+.screen.on{display:flex;}
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 24px;}
+
+/* Nav */
+.nav{display:flex;border-top:0.5px solid var(--border);background:var(--bg);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0);}
+.nb{flex:1;padding:8px 4px 10px;font-size:10px;color:var(--text2);background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;border-top:2px solid transparent;-webkit-appearance:none;}
+.nb.on{color:var(--purple);border-top-color:var(--purple);}
+.nb svg{width:22px;height:22px;fill:currentColor;}
+
+/* Home */
+.dh{text-align:center;margin-bottom:20px;padding-top:8px;}
+.dh h1{font-size:20px;font-weight:600;color:var(--text);}
+.dh p{font-size:13px;color:var(--text2);margin-top:3px;}
+.rarea{background:var(--purple-light);border-radius:20px;padding:28px 16px;text-align:center;margin-bottom:16px;}
+.rbtn{width:80px;height:80px;border-radius:50%;background:var(--purple);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;transition:transform .1s;-webkit-appearance:none;}
+.rbtn:active{transform:scale(.93);}
+.rbtn.rec{background:var(--red);animation:pulse 1.2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(226,75,74,.4);}50%{box-shadow:0 0 0 16px rgba(226,75,74,0);}}
+.rlabel{font-size:15px;font-weight:600;color:var(--purple-dark);}
+.rtimer{font-size:13px;color:var(--purple-mid);margin-top:5px;min-height:20px;font-variant-numeric:tabular-nums;}
+
+/* Question card */
+.qcard{background:var(--bg);border:0.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;}
+.qnum{font-size:11px;color:var(--purple);font-weight:600;margin-bottom:7px;letter-spacing:.3px;}
+.qtext{font-size:17px;color:var(--text);line-height:1.5;font-weight:500;}
+.qbtns{display:flex;gap:10px;margin-top:16px;}
+.btn-next{flex:1;padding:12px;background:var(--purple);color:#fff;border:none;border-radius:12px;font-size:15px;cursor:pointer;font-weight:600;-webkit-appearance:none;}
+.btn-next:active{opacity:.85;}
+.btn-stop{padding:12px 16px;background:none;border:0.5px solid var(--border2);border-radius:12px;font-size:14px;color:var(--text2);cursor:pointer;-webkit-appearance:none;}
+
+/* History */
+.hsec h3{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:10px;}
+.hitem{background:var(--bg2);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
+.hdate{font-size:14px;font-weight:600;color:var(--text);}
+.hdur{font-size:12px;color:var(--text2);margin-top:2px;}
+.hdot{width:8px;height:8px;border-radius:50%;background:#9FE1CB;flex-shrink:0;}
+.hdot.ng{background:#F09595;}
+
+/* Done */
+.done-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
+.done-ico{width:64px;height:64px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.done-ico svg{width:30px;height:30px;fill:var(--green-dark);}
+.done-ico.loading{background:var(--purple-light);}
+.done-ico.loading svg{fill:var(--purple);}
+.done h2{font-size:22px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.done p{font-size:14px;color:var(--text2);line-height:1.6;}
+.progress-bar{width:100%;max-width:240px;height:4px;background:var(--bg3);border-radius:2px;margin-top:20px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--purple);border-radius:2px;transition:width .5s ease;}
+.done-btn{margin-top:28px;padding:14px 36px;background:var(--purple);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;-webkit-appearance:none;}
+
+/* Log */
+.tcard{background:var(--bg);border:0.5px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px;}
+.tdate{font-size:12px;color:var(--text2);margin-bottom:10px;}
+.tqa{margin-bottom:10px;}
+.tq{font-size:11px;color:var(--purple);font-weight:600;margin-bottom:3px;}
+.ta{font-size:14px;color:var(--text);line-height:1.6;}
+.nstatus{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);margin-top:10px;padding-top:10px;border-top:0.5px solid var(--border);}
+.badge-ok{font-size:11px;background:var(--green-light);color:var(--green-dark);padding:3px 10px;border-radius:20px;font-weight:600;}
+.badge-ng{font-size:11px;background:var(--red-light);color:var(--red-dark);padding:3px 10px;border-radius:20px;font-weight:600;}
+.empty{text-align:center;padding:60px 24px;color:var(--text3);font-size:14px;}
+
+/* Settings */
+.ssec{margin-bottom:22px;}
+.shead{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;letter-spacing:.3px;text-transform:uppercase;}
+.scard{background:var(--bg);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
+.srow{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--border);}
+.srow:last-child{border-bottom:none;}
+.srow.col{flex-direction:column;align-items:flex-start;gap:8px;}
+.slab{font-size:15px;color:var(--text);}
+.sval{font-size:14px;color:var(--text2);}
+.tog{width:44px;height:26px;border-radius:13px;background:var(--purple);position:relative;cursor:pointer;flex-shrink:0;transition:background .2s;}
+.tog::after{content:'';width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:3px;right:3px;transition:right .2s,left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3);}
+.tog.off{background:var(--bg3);}
+.tog.off::after{right:auto;left:3px;}
+.qi{padding:12px 16px;border-bottom:0.5px solid var(--border);}
+.qi:last-child{border-bottom:none;}
+.qitxt{font-size:14px;color:var(--text);margin-bottom:6px;line-height:1.4;}
+.qiact{display:flex;gap:6px;}
+.chip{font-size:12px;padding:4px 12px;border-radius:20px;border:0.5px solid var(--border2);color:var(--text2);cursor:pointer;background:none;-webkit-appearance:none;}
+.chip.del{color:var(--red-dark);border-color:#F09595;}
+.addq{padding:12px 16px;border-top:0.5px solid var(--border);}
+.addq input{width:100%;padding:10px 12px;border:0.5px solid var(--border2);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg2);-webkit-appearance:none;outline:none;}
+.addq button{width:100%;margin-top:8px;padding:10px;background:none;border:0.5px solid var(--purple);border-radius:10px;color:var(--purple);font-size:14px;cursor:pointer;font-weight:600;-webkit-appearance:none;}
+.notion-inp{padding:10px 12px;border:0.5px solid var(--border2);border-radius:10px;font-size:13px;color:var(--text);background:var(--bg2);font-family:monospace;width:100%;-webkit-appearance:none;outline:none;}
+.savebtn{width:100%;margin-top:10px;padding:13px;background:var(--purple);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;-webkit-appearance:none;}
+.savebtn:active{opacity:.85;}
+.smsg{margin-top:8px;text-align:center;font-size:13px;min-height:20px;}
+.note{font-size:12px;color:var(--text2);background:var(--bg2);border-radius:10px;padding:10px 14px;margin-top:8px;line-height:1.6;}
+input[type=time]{border:none;font-size:14px;color:var(--text);background:transparent;cursor:pointer;outline:none;}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="sbar">
+    <span id="sbar-time">--:--</span>
+    <span style="font-weight:600;">音声日記</span>
+    <span>●●●</span>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen on" id="sc-home">
+    <div class="scroll" id="home-scroll">
+      <div class="dh">
+        <h1 id="today-label"></h1>
+        <p>今日の日記を録音しよう</p>
+      </div>
+      <div class="rarea" id="rarea">
+        <button class="rbtn" id="rbtn" onclick="onRecBtn()">
+          <svg viewBox="0 0 24 24" style="fill:#fff;width:32px;height:32px;"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 3.27-3.32 5.8-6.91 5.8s-6.42-2.53-6.91-5.8H2.09C2.6 15.34 6.02 18.35 10 18.91V22h4v-3.09c3.98-.56 7.4-3.57 7.91-7.91h-2z"/></svg>
+        </button>
+        <div class="rlabel" id="rlabel">タップして録音開始</div>
+        <div class="rtimer" id="rtimer"></div>
+      </div>
+      <div id="qdisp" style="display:none;">
+        <div class="qcard">
+          <div class="qnum" id="qnum"></div>
+          <div class="qtext" id="qtext"></div>
+          <div class="qbtns">
+            <button class="btn-next" id="btnNext" onclick="nextQ()">次の質問へ</button>
+            <button class="btn-stop" onclick="stopRec()">録音終了</button>
+          </div>
+        </div>
+      </div>
+      <div class="hsec" id="hsec">
+        <h3>最近の記録（最新5件）</h3>
+        <div id="hlist"></div>
+        <div id="hempty" style="display:none;font-size:13px;color:var(--text3);text-align:center;padding:20px 0;">まだ記録がありません</div>
+      </div>
+    </div>
+    <div class="done-wrap" id="done-panel" style="display:none;">
+      <div class="done-ico loading" id="done-ico">
+        <svg viewBox="0 0 24 24"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/></svg>
+      </div>
+      <h2 id="done-title">処理中...</h2>
+      <p id="done-msg">音声を処理しています</p>
+      <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+      <button class="done-btn" id="done-home" onclick="backHome()" style="display:none;">ホームへ戻る</button>
+    </div>
+  </div>
+
+  <!-- LOG -->
+  <div class="screen" id="sc-log">
+    <div class="scroll">
+      <div style="margin-bottom:16px;padding-top:4px;"><h2 style="font-size:20px;font-weight:700;color:var(--text);">文字起こし履歴</h2></div>
+      <div id="loglist"></div>
+      <div class="empty" id="log-empty" style="display:none;">録音するとここに履歴が表示されます</div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="screen" id="sc-settings">
+    <div class="scroll">
+      <div style="margin-bottom:16px;padding-top:4px;"><h2 style="font-size:20px;font-weight:700;color:var(--text);">設定</h2></div>
+
+      <div class="ssec">
+        <div class="shead">通知</div>
+        <div class="scard">
+          <div class="srow">
+            <span class="slab">毎日通知</span>
+            <div class="tog" id="notif-tog" onclick="this.classList.toggle('off')"></div>
+          </div>
+          <div class="srow">
+            <span class="slab">通知時刻</span>
+            <input type="time" id="notif-time" value="22:00" onchange="saveNotifTime(this.value)">
+          </div>
+        </div>
+        <div class="note">iPhoneでの通知は「ショートカット」アプリ → オートメーション → 時刻 → 「URLを開く」でこのファイルのURLを設定してください。</div>
+      </div>
+
+      <div class="ssec">
+        <div class="shead">質問リスト</div>
+        <div class="scard">
+          <div id="qlist-s"></div>
+          <div class="addq">
+            <input id="newq" placeholder="新しい質問を入力...">
+            <button onclick="addQ()">＋ 質問を追加</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssec">
+        <div class="shead">Notion連携</div>
+        <div class="scard">
+          <div class="srow col">
+            <span class="slab">Integration APIキー</span>
+            <input class="notion-inp" id="nkey" type="password" placeholder="ntn_xxxxxxxxxxxxxxxxxxxx">
+          </div>
+          <div class="srow col">
+            <span class="slab">転記先ページID</span>
+            <input class="notion-inp" id="npid" value="33f515c321628063883ff6e4cd706567">
+          </div>
+        </div>
+        <button class="savebtn" onclick="saveNotion()">保存して接続確認</button>
+        <div class="smsg" id="smsg"></div>
+      </div>
+
+      <div class="ssec">
+        <div class="shead">文字起こし</div>
+        <div class="scard">
+          <div class="srow"><span class="slab">エンジン</span><span class="sval">ブラウザ内蔵（無料）</span></div>
+          <div class="srow"><span class="slab">言語</span><span class="sval">日本語</span></div>
+        </div>
+        <div class="note">録音後にブラウザの音声認識APIで文字起こしします。Safariをご使用ください。</div>
+      </div>
+
+      <div class="ssec">
+        <div class="shead">データ管理</div>
+        <div class="scard">
+          <div class="srow"><span class="slab">録音データ保存数</span><span class="sval">最新5件</span></div>
+          <div class="srow"><span class="slab">文字起こし保存数</span><span class="sval">最新5件</span></div>
+        </div>
+        <button onclick="clearData()" style="width:100%;margin-top:10px;padding:13px;background:none;border:0.5px solid var(--red);border-radius:14px;font-size:14px;color:var(--red);cursor:pointer;font-weight:600;">すべてのデータを削除</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="nb on" id="nb-home" onclick="tab('home')">
+      <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 3.27-3.32 5.8-6.91 5.8s-6.42-2.53-6.91-5.8H2.09C2.6 15.34 6.02 18.35 10 18.91V22h4v-3.09c3.98-.56 7.4-3.57 7.91-7.91h-2z"/></svg>
+      録音
+    </button>
+    <button class="nb" id="nb-log" onclick="tab('log')">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      履歴
+    </button>
+    <button class="nb" id="nb-settings" onclick="tab('settings')">
+      <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      設定
+    </button>
+  </div>
+</div>
+
+<script>
+const NOTION_PAGE_ID_DEFAULT = '33f515c321628063883ff6e4cd706567';
+const SK = 'vdiary_v3';
+
+let S = {
+  questions: ['今日、一番よかったことは何ですか？','今日、難しかったことや改善したいことは？','今日の感情・気分を一言で表すと？','明日の自分へ一言。'],
+  logs: [],
+  notionKey: '',
+  notionPageId: NOTION_PAGE_ID_DEFAULT
+};
+
+function load() { try { const s = localStorage.getItem(SK); if(s) S={...S,...JSON.parse(s)}; } catch(e){} }
+function save() { try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e){} }
+
+let recording=false, mediaRec=null, audioChunks=[], timerInt=null, secs=0, curQ=0, sessionQAs=[];
+
+/* ---- Tab ---- */
+function tab(n) {
+  ['home','log','settings'].forEach(x => {
+    document.getElementById('sc-'+x).classList.remove('on');
+    document.getElementById('nb-'+x).classList.remove('on');
+  });
+  document.getElementById('sc-'+n).classList.add('on');
+  document.getElementById('nb-'+n).classList.add('on');
+  if(n==='log') renderLog();
+  if(n==='settings') renderSettings();
+}
+
+/* ---- Date / Clock ---- */
+function initUI() {
+  const d=new Date(), days=['日','月','火','水','木','金','土'];
+  document.getElementById('today-label').textContent=(d.getMonth()+1)+'月'+d.getDate()+'日（'+days[d.getDay()]+'）';
+  function tick(){
+    const n=new Date();
+    document.getElementById('sbar-time').textContent=pad(n.getHours())+':'+pad(n.getMinutes());
+  }
+  tick(); setInterval(tick,15000);
+}
+function pad(n){return String(n).padStart(2,'0');}
+
+/* ---- Record ---- */
+function onRecBtn() { if(!recording) startRec(); }
+
+async function startRec() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    mediaRec = new MediaRecorder(stream);
+    audioChunks=[]; sessionQAs=[]; curQ=0; secs=0;
+    mediaRec.ondataavailable = e => { if(e.data.size>0) audioChunks.push(e.data); };
+    mediaRec.start(1000);
+    recording=true;
+    document.getElementById('rbtn').classList.add('rec');
+    document.getElementById('rbtn').innerHTML='<svg viewBox="0 0 24 24" style="fill:#fff;width:28px;height:28px;"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
+    document.getElementById('rlabel').textContent='録音中...';
+    document.getElementById('qdisp').style.display='block';
+    document.getElementById('hsec').style.display='none';
+    updateQ();
+    timerInt=setInterval(()=>{
+      secs++;
+      document.getElementById('rtimer').textContent=pad(Math.floor(secs/60))+':'+pad(secs%60);
+    },1000);
+  } catch(e) {
+    alert('マイクへのアクセスを許可してください。\nSafariの場合：設定 → Safari → マイク → 許可');
+  }
+}
+
+function updateQ() {
+  const q=S.questions;
+  document.getElementById('qnum').textContent='質問 '+(curQ+1)+' / '+q.length;
+  document.getElementById('qtext').textContent=q[curQ];
+  const nb=document.getElementById('btnNext');
+  if(curQ>=q.length-1){ nb.textContent='録音終了'; nb.onclick=stopRec; }
+  else { nb.textContent='次の質問へ'; nb.onclick=nextQ; }
+}
+
+function nextQ() {
+  sessionQAs.push({q:S.questions[curQ],a:''});
+  if(curQ<S.questions.length-1){ curQ++; updateQ(); }
+}
+
+async function stopRec() {
+  clearInterval(timerInt);
+  recording=false;
+  sessionQAs.push({q:S.questions[curQ],a:''});
+  document.getElementById('qdisp').style.display='none';
+  document.getElementById('rarea').style.display='none';
+
+  const dp=document.getElementById('done-panel');
+  dp.style.display='flex';
+  const prog=document.getElementById('prog');
+  const msg=document.getElementById('done-msg');
+  const title=document.getElementById('done-title');
+  const ico=document.getElementById('done-ico');
+
+  if(mediaRec && mediaRec.state!=='inactive'){
+    await new Promise(r=>{ mediaRec.onstop=r; mediaRec.stop(); });
+    mediaRec.stream.getTracks().forEach(t=>t.stop());
+  }
+
+  prog.style.width='25%'; msg.textContent='音声データを処理中...'; await sleep(500);
+  prog.style.width='50%'; msg.textContent='文字起こし中...'; await sleep(300);
+
+  const transcripts = await doTranscribe();
+  sessionQAs.forEach((qa,i)=>{ qa.a=transcripts[i]||'（音声認識できませんでした）'; });
+
+  prog.style.width='75%'; msg.textContent='Notionへ転記中...'; await sleep(400);
+
+  const entry={date:new Date().toISOString(), duration:secs, qas:[...sessionQAs], notionOk:false};
+  entry.notionOk = await postToNotion(entry);
+
+  S.logs.unshift(entry);
+  if(S.logs.length>5) S.logs=S.logs.slice(0,5);
+  save();
+
+  prog.style.width='100%'; await sleep(300);
+  ico.classList.remove('loading');
+  ico.innerHTML='<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+  title.textContent='完了！';
+  msg.textContent = entry.notionOk
+    ? '文字起こし・Notion転記が完了しました！'
+    : '録音完了！\nNotion転記はAPIキーを設定後に反映されます。';
+  document.getElementById('done-home').style.display='block';
+}
+
+async function doTranscribe() {
+  return new Promise(resolve=>{
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){ resolve(sessionQAs.map(()=>'（このブラウザは音声認識非対応です）')); return; }
+    const blob=new Blob(audioChunks,{type:mediaRec.mimeType||'audio/webm'});
+    const url=URL.createObjectURL(blob);
+    const audio=new Audio(url);
+    const rec=new SR();
+    rec.lang='ja-JP'; rec.continuous=true; rec.interimResults=false;
+    const parts=[];
+    rec.onresult=e=>{ for(let i=e.resultIndex;i<e.results.length;i++) if(e.results[i].isFinal) parts.push(e.results[i][0].transcript); };
+    rec.onend=()=>{ URL.revokeObjectURL(url); const full=parts.join(''); resolve(sessionQAs.map((_,i)=>parts[i]||full||'（音声を認識できませんでした）')); };
+    rec.onerror=()=>{ resolve(sessionQAs.map(()=>'（音声認識エラー）')); };
+    try { rec.start(); audio.play().catch(()=>{}); setTimeout(()=>{ try{rec.stop();}catch(e){} }, Math.max(secs*1000+2000,4000)); }
+    catch(e){ resolve(sessionQAs.map(()=>'（音声認識できませんでした）')); }
+  });
+}
+
+async function postToNotion(entry) {
+  const key=S.notionKey, pid=S.notionPageId||NOTION_PAGE_ID_DEFAULT;
+  if(!key) return false;
+  const d=new Date(entry.date);
+  const days=['日','月','火','水','木','金','土'];
+  const dateStr=(d.getMonth()+1)+'月'+d.getDate()+'日（'+days[d.getDay()]+'）';
+  const timeStr=pad(d.getHours())+':'+pad(d.getMinutes());
+  const durStr=Math.floor(entry.duration/60)+'分'+pad(entry.duration%60)+'秒';
+
+  const children=[
+    {object:'block',type:'heading_2',heading_2:{rich_text:[{type:'text',text:{content:'📅 '+dateStr+' '+timeStr+'　（'+durStr+'）'}}]}},
+  ];
+  entry.qas.forEach(qa=>{
+    children.push({object:'block',type:'paragraph',paragraph:{rich_text:[{type:'text',text:{content:'Q: '+qa.q},annotations:{bold:true,color:'purple'}}]}});
+    children.push({object:'block',type:'paragraph',paragraph:{rich_text:[{type:'text',text:{content:qa.a||'（未回答）'}}]}});
+  });
+  children.push({object:'block',type:'divider',divider:{}});
+
+  try {
+    const res=await fetch('https://api.notion.com/v1/blocks/'+pid+'/children',{
+      method:'PATCH',
+      headers:{'Authorization':'Bearer '+key,'Notion-Version':'2022-06-28','Content-Type':'application/json'},
+      body:JSON.stringify({children})
+    });
+    return res.ok;
+  } catch(e){ return false; }
+}
+
+function backHome() {
+  document.getElementById('done-panel').style.display='none';
+  document.getElementById('rarea').style.display='block';
+  document.getElementById('hsec').style.display='block';
+  const ico=document.getElementById('done-ico');
+  ico.classList.add('loading');
+  ico.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/></svg>';
+  document.getElementById('done-title').textContent='処理中...';
+  document.getElementById('done-home').style.display='none';
+  document.getElementById('prog').style.width='0%';
+  document.getElementById('rbtn').classList.remove('rec');
+  document.getElementById('rbtn').innerHTML='<svg viewBox="0 0 24 24" style="fill:#fff;width:32px;height:32px;"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 3.27-3.32 5.8-6.91 5.8s-6.42-2.53-6.91-5.8H2.09C2.6 15.34 6.02 18.35 10 18.91V22h4v-3.09c3.98-.56 7.4-3.57 7.91-7.91h-2z"/></svg>';
+  document.getElementById('rlabel').textContent='タップして録音開始';
+  document.getElementById('rtimer').textContent='';
+  renderHomeList();
+}
+
+/* ---- Render ---- */
+function renderHomeList() {
+  const list=document.getElementById('hlist'), empty=document.getElementById('hempty');
+  const days=['日','月','火','水','木','金','土'];
+  list.innerHTML='';
+  if(!S.logs.length){ empty.style.display='block'; return; }
+  empty.style.display='none';
+  S.logs.forEach(log=>{
+    const d=new Date(log.date);
+    const div=document.createElement('div');
+    div.className='hitem';
+    div.innerHTML='<div><div class="hdate">'+(d.getMonth()+1)+'月'+d.getDate()+'日（'+days[d.getDay()]+'）</div><div class="hdur">'+Math.floor(log.duration/60)+'分'+pad(log.duration%60)+'秒　'+log.qas.length+'つの質問</div></div><div class="hdot'+(log.notionOk?'':' ng')+'"></div>';
+    div.onclick=()=>tab('log');
+    list.appendChild(div);
+  });
+}
+
+function renderLog() {
+  const list=document.getElementById('loglist'), empty=document.getElementById('log-empty');
+  const days=['日','月','火','水','木','金','土'];
+  list.innerHTML='';
+  if(!S.logs.length){ empty.style.display='block'; return; }
+  empty.style.display='none';
+  S.logs.forEach(log=>{
+    const d=new Date(log.date);
+    const card=document.createElement('div');
+    card.className='tcard';
+    let h='<div class="tdate">'+(d.getMonth()+1)+'月'+d.getDate()+'日（'+days[d.getDay()]+'）　'+pad(d.getHours())+':'+pad(d.getMinutes())+'　'+Math.floor(log.duration/60)+'分'+pad(log.duration%60)+'秒</div>';
+    (log.qas||[]).forEach(qa=>{ h+='<div class="tqa"><div class="tq">'+qa.q+'</div><div class="ta">'+(qa.a||'（録音済み）')+'</div></div>'; });
+    h+='<div class="nstatus">'+(log.notionOk?'<span class="badge-ok">Notion転記済み</span><span>Voice Journalページに追記</span>':'<span class="badge-ng">未転記</span><span>設定タブでAPIキーを入力</span>')+'</div>';
+    card.innerHTML=h;
+    list.appendChild(card);
+  });
+}
+
+function renderSettings() {
+  const ql=document.getElementById('qlist-s');
+  ql.innerHTML='';
+  S.questions.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.className='qi';
+    div.innerHTML='<div class="qitxt">'+q+'</div><div class="qiact"><button class="chip" onclick="mqUp('+i+')">↑</button><button class="chip" onclick="mqDown('+i+')">↓</button><button class="chip del" onclick="mqDel('+i+')">削除</button></div>';
+    ql.appendChild(div);
+  });
+  document.getElementById('nkey').value=S.notionKey||'';
+  document.getElementById('npid').value=S.notionPageId||NOTION_PAGE_ID_DEFAULT;
+}
+
+function addQ(){const inp=document.getElementById('newq'),v=inp.value.trim();if(!v)return;S.questions.push(v);save();inp.value='';renderSettings();}
+function mqDel(i){if(S.questions.length<=1)return;S.questions.splice(i,1);save();renderSettings();}
+function mqUp(i){if(i===0)return;[S.questions[i-1],S.questions[i]]=[S.questions[i],S.questions[i-1]];save();renderSettings();}
+function mqDown(i){if(i>=S.questions.length-1)return;[S.questions[i],S.questions[i+1]]=[S.questions[i+1],S.questions[i]];save();renderSettings();}
+function saveNotifTime(v){S.notifTime=v;save();}
+
+async function saveNotion(){
+  const key=document.getElementById('nkey').value.trim();
+  const pid=document.getElementById('npid').value.trim();
+  const msg=document.getElementById('smsg');
+  if(!key){msg.style.color='var(--red-dark)';msg.textContent='APIキーを入力してください';return;}
+  S.notionKey=key; S.notionPageId=pid||NOTION_PAGE_ID_DEFAULT; save();
+  msg.style.color='var(--text2)'; msg.textContent='接続確認中...';
+  try{
+    const res=await fetch('https://api.notion.com/v1/pages/'+(pid||NOTION_PAGE_ID_DEFAULT),{headers:{'Authorization':'Bearer '+key,'Notion-Version':'2022-06-28'}});
+    if(res.ok){msg.style.color='var(--green-dark)';msg.textContent='✓ 接続成功！Voice Journalページを確認しました';}
+    else if(res.status===401){msg.style.color='var(--red-dark)';msg.textContent='APIキーが無効です';}
+    else if(res.status===403){msg.style.color='var(--red-dark)';msg.textContent='ページへのアクセス権がありません。インテグレーションをページに接続してください';}
+    else{msg.style.color='var(--red-dark)';msg.textContent='エラー ('+res.status+')';}
+  }catch(e){msg.style.color='var(--green-dark)';msg.textContent='✓ 保存しました';}
+  setTimeout(()=>msg.textContent='',5000);
+}
+
+function clearData(){
+  if(!confirm('すべてのデータ（履歴・APIキー）を削除しますか？この操作は取り消せません。'))return;
+  localStorage.removeItem(SK);
+  S={questions:['今日、一番よかったことは何ですか？','今日、難しかったことや改善したいことは？','今日の感情・気分を一言で表すと？','明日の自分へ一言。'],logs:[],notionKey:'',notionPageId:NOTION_PAGE_ID_DEFAULT};
+  renderSettings(); renderHomeList(); alert('データを削除しました。');
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+load(); initUI(); renderHomeList();
+</script>
+</body>
+</html>
