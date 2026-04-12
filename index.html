@@ -374,7 +374,8 @@ async function stopRec() {
   prog.style.width='75%'; msg.textContent='Notionへ転記中...'; await sleep(400);
 
   const entry={date:new Date().toISOString(), duration:secs, qas:[...sessionQAs], notionOk:false};
-  entry.notionOk = await postToNotion(entry);
+  const notionResult = await postToNotion(entry);
+  entry.notionOk = notionResult.ok;
 
   S.logs.unshift(entry);
   if(S.logs.length>5) S.logs=S.logs.slice(0,5);
@@ -384,9 +385,11 @@ async function stopRec() {
   ico.classList.remove('loading');
   ico.innerHTML='<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
   title.textContent='完了！';
-  msg.textContent = entry.notionOk
-    ? '文字起こし・Notion転記が完了しました！'
-    : '録音完了！\nNotion転記はAPIキーを設定後に反映されます。';
+  if(notionResult.ok) {
+    msg.textContent = '文字起こし・Notion転記が完了しました！';
+  } else {
+    msg.textContent = '録音完了！\nNotion転記エラー：' + (notionResult.reason || '設定タブでAPIキーを確認してください');
+  }
   document.getElementById('done-home').style.display='block';
 }
 
@@ -410,7 +413,7 @@ async function doTranscribe() {
 
 async function postToNotion(entry) {
   const key=S.notionKey, pid=S.notionPageId||NOTION_PAGE_ID_DEFAULT;
-  if(!key) return false;
+  if(!key) return {ok:false, reason:'APIキー未設定'};
   const d=new Date(entry.date);
   const days=['日','月','火','水','木','金','土'];
   const dateStr=(d.getMonth()+1)+'月'+d.getDate()+'日（'+days[d.getDay()]+'）';
@@ -432,8 +435,15 @@ async function postToNotion(entry) {
       headers:{'Authorization':'Bearer '+key,'Notion-Version':'2022-06-28','Content-Type':'application/json'},
       body:JSON.stringify({children})
     });
-    return res.ok;
-  } catch(e){ return false; }
+    if(res.ok) return {ok:true};
+    const body=await res.json().catch(()=>({}));
+    if(res.status===401) return {ok:false, reason:'APIキーが無効です。設定タブで再入力してください'};
+    if(res.status===403) return {ok:false, reason:'ページへのアクセス権がありません。NotionページにIntegrationを接続してください（ページ右上「…」→「接続先」）'};
+    if(res.status===404) return {ok:false, reason:'ページが見つかりません。ページIDを確認してください'};
+    return {ok:false, reason:'エラー '+res.status+': '+(body.message||'')};
+  } catch(e){
+    return {ok:false, reason:'通信エラー: '+e.message};
+  }
 }
 
 function backHome() {
@@ -508,20 +518,13 @@ function mqDown(i){if(i>=S.questions.length-1)return;[S.questions[i],S.questions
 function saveNotifTime(v){S.notifTime=v;save();}
 
 async function saveNotion(){
-  const key=document.getElementById('nkey').value.trim();
-  const pid=document.getElementById('npid').value.trim();
-  const msg=document.getElementById('smsg');
-  if(!key){msg.style.color='var(--red-dark)';msg.textContent='APIキーを入力してください';return;}
+  const key=document.getElementById("nkey").value.trim();
+  const pid=document.getElementById("npid").value.trim();
+  const msg=document.getElementById("smsg");
+  if(!key){msg.style.color="var(--red-dark)";msg.textContent="APIキーを入力してください";return;}
   S.notionKey=key; S.notionPageId=pid||NOTION_PAGE_ID_DEFAULT; save();
-  msg.style.color='var(--text2)'; msg.textContent='接続確認中...';
-  try{
-    const res=await fetch('https://api.notion.com/v1/pages/'+(pid||NOTION_PAGE_ID_DEFAULT),{headers:{'Authorization':'Bearer '+key,'Notion-Version':'2022-06-28'}});
-    if(res.ok){msg.style.color='var(--green-dark)';msg.textContent='✓ 接続成功！Voice Journalページを確認しました';}
-    else if(res.status===401){msg.style.color='var(--red-dark)';msg.textContent='APIキーが無効です';}
-    else if(res.status===403){msg.style.color='var(--red-dark)';msg.textContent='ページへのアクセス権がありません。インテグレーションをページに接続してください';}
-    else{msg.style.color='var(--red-dark)';msg.textContent='エラー ('+res.status+')';}
-  }catch(e){msg.style.color='var(--green-dark)';msg.textContent='✓ 保存しました';}
-  setTimeout(()=>msg.textContent='',5000);
+  msg.style.color="var(--green-dark)"; msg.textContent="✓ 保存しました。次回の録音からNotionへ転記されます。";
+  setTimeout(()=>msg.textContent="",5000);
 }
 
 function clearData(){
