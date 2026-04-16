@@ -36,48 +36,61 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;di
 .nb{flex:1;padding:8px 4px 10px;font-size:10px;color:var(--text2);background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;border-top:2px solid transparent;-webkit-appearance:none;}
 .nb.on{color:var(--purple);border-top-color:var(--purple);}
 .nb svg{width:22px;height:22px;fill:currentColor;}
+
+/* Home */
 .dh{text-align:center;margin-bottom:20px;padding-top:6px;}
 .dh h1{font-size:21px;font-weight:600;color:var(--text);}
 .dh p{font-size:13px;color:var(--text2);margin-top:3px;}
-.rarea{background:var(--purple-light);border-radius:20px;padding:28px 16px 22px;text-align:center;margin-bottom:16px;}
-.rbtn{width:80px;height:80px;border-radius:50%;background:var(--purple);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;transition:transform .1s;-webkit-appearance:none;}
-.rbtn:active{transform:scale(.93);}
-.rbtn.rec{background:var(--red);animation:pulse 1.2s infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(226,75,74,.4);}50%{box-shadow:0 0 0 16px rgba(226,75,74,0);}}
-.rlabel{font-size:15px;font-weight:600;color:var(--purple-dark);}
-.rtimer{font-size:13px;color:var(--purple-mid);margin-top:5px;min-height:20px;font-variant-numeric:tabular-nums;letter-spacing:.5px;}
-.qcard{background:var(--bg);border:0.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;}
-.qnum{font-size:11px;color:var(--purple);font-weight:600;margin-bottom:7px;}
-.qtext{font-size:17px;color:var(--text);line-height:1.5;font-weight:500;}
-.qbtns{display:flex;gap:10px;margin-top:16px;}
-.btn-next{flex:1;padding:12px;background:var(--purple);color:#fff;border:none;border-radius:12px;font-size:15px;cursor:pointer;font-weight:600;-webkit-appearance:none;}
-.btn-next:active{opacity:.82;}
-.btn-stop{padding:12px 16px;background:none;border:0.5px solid var(--border2);border-radius:12px;font-size:14px;color:var(--text2);cursor:pointer;-webkit-appearance:none;}
+.start-btn{width:100%;padding:18px;background:var(--purple);color:#fff;border:none;border-radius:16px;font-size:17px;font-weight:600;cursor:pointer;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px;}
+.start-btn:active{opacity:.85;}
 .hsec h3{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;}
 .hitem{background:var(--bg2);border-radius:12px;padding:13px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
 .hitem:active{opacity:.75;}
 .hdate{font-size:14px;font-weight:600;color:var(--text);}
 .hdur{font-size:12px;color:var(--text2);margin-top:2px;}
+
+/* Entry */
+.entry-header{background:var(--purple);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.entry-header h2{font-size:16px;font-weight:600;color:#fff;}
+.entry-progress{font-size:13px;color:rgba(255,255,255,.75);}
+.progress-track{height:3px;background:rgba(255,255,255,.25);flex-shrink:0;}
+.progress-bar{height:100%;background:#fff;transition:width .3s ease;}
+.qblock{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 8px;}
+.q-label{font-size:11px;color:var(--purple);font-weight:600;margin-bottom:8px;letter-spacing:.3px;}
+.q-text{font-size:18px;font-weight:600;color:var(--text);line-height:1.45;margin-bottom:12px;}
+
+/* Question image */
+.q-image-wrap{margin-bottom:14px;border-radius:14px;overflow:hidden;background:var(--bg2);position:relative;}
+.q-image-wrap img{width:100%;display:block;max-height:220px;object-fit:cover;}
+
+.q-hint{font-size:12px;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.q-hint svg{width:14px;height:14px;fill:var(--text3);flex-shrink:0;}
+.answer-area{width:100%;min-height:110px;padding:14px;border:1.5px solid var(--border2);border-radius:14px;font-size:16px;color:var(--text);background:var(--bg2);resize:none;-webkit-appearance:none;outline:none;font-family:inherit;line-height:1.6;}
+.answer-area:focus{border-color:var(--purple);}
+.entry-actions{padding:14px 16px;display:flex;gap:10px;flex-shrink:0;border-top:0.5px solid var(--border);}
+.btn-prev{padding:13px 18px;background:none;border:0.5px solid var(--border2);border-radius:12px;font-size:14px;color:var(--text2);cursor:pointer;-webkit-appearance:none;}
+.btn-next-q{flex:1;padding:13px;background:var(--purple);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;-webkit-appearance:none;}
+.btn-next-q:active{opacity:.85;}
+.btn-next-q.save{background:var(--green-dark);}
+
+/* Done */
 .done-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
-.done-ico{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
-.done-ico.ok{background:var(--green-light);}
-.done-ico.ok svg{fill:var(--green-dark);}
-.done-ico.spin{background:var(--purple-light);}
-.done-ico.spin svg{fill:var(--purple);animation:rotate 1s linear infinite;}
-@keyframes rotate{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.done-ico{width:72px;height:72px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.done-ico svg{width:36px;height:36px;fill:var(--green-dark);}
 .done h2{font-size:22px;font-weight:700;color:var(--text);margin-bottom:8px;}
-.done p{font-size:14px;color:var(--text2);line-height:1.7;white-space:pre-wrap;}
-.prog-bar{width:100%;max-width:240px;height:4px;background:var(--bg3);border-radius:2px;margin-top:18px;overflow:hidden;}
-.prog-fill{height:100%;background:var(--purple);border-radius:2px;transition:width .5s ease;}
+.done p{font-size:14px;color:var(--text2);line-height:1.7;}
 .done-btn{margin-top:28px;padding:14px 36px;background:var(--purple);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;-webkit-appearance:none;}
-.done-btn:active{opacity:.85;}
+
+/* Log */
 .log-entry{background:var(--bg);border:0.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;}
 .log-date{font-size:12px;color:var(--text2);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
-.log-del{font-size:12px;color:var(--red);background:none;border:none;cursor:pointer;padding:2px 6px;-webkit-appearance:none;}
+.log-del{font-size:12px;color:var(--red);background:none;border:none;cursor:pointer;-webkit-appearance:none;}
 .log-qa{margin-bottom:10px;}
 .log-q{font-size:11px;color:var(--purple);font-weight:600;margin-bottom:4px;}
 .log-a{font-size:14px;color:var(--text);line-height:1.65;}
-.empty{text-align:center;padding:64px 24px;color:var(--text3);font-size:14px;line-height:1.7;}
+.empty{text-align:center;padding:64px 24px;color:var(--text3);font-size:14px;line-height:1.8;}
+
+/* Settings */
 .ssec{margin-bottom:22px;}
 .shead{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:8px;letter-spacing:.4px;text-transform:uppercase;}
 .scard{background:var(--bg);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
@@ -90,17 +103,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;di
 .tog.off{background:var(--bg3);}
 .tog.off::after{right:auto;left:3px;}
 input[type=time]{border:none;font-size:14px;color:var(--text);background:transparent;cursor:pointer;outline:none;}
+
+/* Question list in settings */
 .qi{padding:12px 16px;border-bottom:0.5px solid var(--border);}
 .qi:last-child{border-bottom:none;}
+.qi-top{display:flex;align-items:flex-start;gap:10px;}
+.qi-img{width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0;border:0.5px solid var(--border);}
+.qi-img-placeholder{width:48px;height:48px;border-radius:8px;background:var(--bg2);border:1.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
+.qi-img-placeholder svg{width:20px;height:20px;fill:var(--text3);}
+.qi-body{flex:1;min-width:0;}
 .qitxt{font-size:14px;color:var(--text);margin-bottom:6px;line-height:1.4;}
-.qiact{display:flex;gap:6px;}
-.chip{font-size:12px;padding:4px 12px;border-radius:20px;border:0.5px solid var(--border2);color:var(--text2);cursor:pointer;background:none;-webkit-appearance:none;}
+.qiact{display:flex;gap:6px;flex-wrap:wrap;}
+.chip{font-size:11px;padding:4px 10px;border-radius:20px;border:0.5px solid var(--border2);color:var(--text2);cursor:pointer;background:none;-webkit-appearance:none;}
 .chip.del{color:var(--red-dark);border-color:#F09595;}
+.chip.img{color:var(--purple);border-color:var(--purple);}
+.chip.img-del{color:var(--text3);}
 .addq{padding:12px 16px;border-top:0.5px solid var(--border);}
 .addq input{width:100%;padding:10px 12px;border:0.5px solid var(--border2);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg2);-webkit-appearance:none;outline:none;}
 .addq button{width:100%;margin-top:8px;padding:10px;background:none;border:0.5px solid var(--purple);border-radius:10px;color:var(--purple);font-size:14px;cursor:pointer;font-weight:600;-webkit-appearance:none;}
 .delbtn{width:100%;margin-top:10px;padding:13px;background:none;border:0.5px solid var(--red);border-radius:14px;font-size:14px;color:var(--red);cursor:pointer;font-weight:600;-webkit-appearance:none;}
 .note{font-size:12px;color:var(--text2);background:var(--bg2);border-radius:10px;padding:10px 14px;margin-top:8px;line-height:1.6;}
+input[type=file]{display:none;}
 </style>
 </head>
 <body>
@@ -113,42 +136,57 @@ input[type=time]{border:none;font-size:14px;color:var(--text);background:transpa
 
   <!-- HOME -->
   <div class="screen on" id="sc-home">
-    <div class="scroll" id="home-scroll">
+    <div class="scroll">
       <div class="dh">
         <h1 id="today-label"></h1>
-        <p>今日の日記を録音しよう</p>
+        <p id="today-sub">今日の日記をつけよう</p>
       </div>
-      <div class="rarea" id="rarea">
-        <button class="rbtn" id="rbtn" onclick="onRecBtn()">
-          <svg viewBox="0 0 24 24" style="fill:#fff;width:32px;height:32px;"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 3.27-3.32 5.8-6.91 5.8s-6.42-2.53-6.91-5.8H2.09C2.6 15.34 6.02 18.35 10 18.91V22h4v-3.09c3.98-.56 7.4-3.57 7.91-7.91h-2z"/></svg>
-        </button>
-        <div class="rlabel" id="rlabel">タップして録音開始</div>
-        <div class="rtimer" id="rtimer"></div>
-      </div>
-      <div id="qdisp" style="display:none;">
-        <div class="qcard">
-          <div class="qnum" id="qnum"></div>
-          <div class="qtext" id="qtext"></div>
-          <div class="qbtns">
-            <button class="btn-next" id="btnNext">次の質問へ</button>
-            <button class="btn-stop" onclick="stopRec()">録音終了</button>
-          </div>
-        </div>
-      </div>
-      <div class="hsec" id="hsec">
+      <button class="start-btn" onclick="startEntry()">
+        <svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:#fff;"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 3.27-3.32 5.8-6.91 5.8s-6.42-2.53-6.91-5.8H2.09C2.6 15.34 6.02 18.35 10 18.91V22h4v-3.09c3.98-.56 7.4-3.57 7.91-7.91h-2z"/></svg>
+        今日の日記をはじめる
+      </button>
+      <div class="hsec">
         <h3>最近の記録</h3>
         <div id="hlist"></div>
         <div id="hempty" style="display:none;font-size:13px;color:var(--text3);text-align:center;padding:20px 0;">まだ記録がありません</div>
       </div>
     </div>
-    <div class="done-wrap" id="done-panel" style="display:none;">
-      <div class="done-ico spin" id="done-ico">
-        <svg viewBox="0 0 24 24" width="28" height="28"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/></svg>
+  </div>
+
+  <!-- ENTRY -->
+  <div class="screen" id="sc-entry">
+    <div class="entry-header">
+      <h2 id="entry-date"></h2>
+      <span class="entry-progress" id="entry-prog">1 / 4</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-bar" id="prog-bar" style="width:25%;"></div>
+    </div>
+    <div class="qblock" id="qblock">
+      <div class="q-label" id="q-label">質問 1</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="q-image-wrap" id="q-image-wrap" style="display:none;">
+        <img id="q-image" src="" alt="">
       </div>
-      <h2 id="done-title">処理中...</h2>
-      <p id="done-msg"></p>
-      <div class="prog-bar"><div class="prog-fill" id="prog" style="width:0%"></div></div>
-      <button class="done-btn" id="done-home-btn" onclick="backHome()" style="display:none;">ホームへ戻る</button>
+      <div class="q-hint">
+        <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 3.27-3.32 5.8-6.91 5.8s-6.42-2.53-6.91-5.8H2.09C2.6 15.34 6.02 18.35 10 18.91V22h4v-3.09c3.98-.56 7.4-3.57 7.91-7.91h-2z"/></svg>
+        キーボードの🎤で話すと音声入力できます
+      </div>
+      <textarea class="answer-area" id="answer-area" placeholder="ここに答えを入力（キーボードの🎤で音声入力）"></textarea>
+    </div>
+    <div class="entry-actions">
+      <button class="btn-prev" id="btn-prev" onclick="prevQ()">‹ 戻る</button>
+      <button class="btn-next-q" id="btn-next-q" onclick="nextQ()">次の質問へ ›</button>
+    </div>
+  </div>
+
+  <!-- DONE -->
+  <div class="screen" id="sc-done">
+    <div class="done-wrap done">
+      <div class="done-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+      <h2>保存しました！</h2>
+      <p>今日の日記を記録しました。<br>お疲れさまでした。</p>
+      <button class="done-btn" onclick="tab('home')">ホームへ戻る</button>
     </div>
   </div>
 
@@ -160,7 +198,7 @@ input[type=time]{border:none;font-size:14px;color:var(--text);background:transpa
         <span id="log-count" style="font-size:13px;color:var(--text2);"></span>
       </div>
       <div id="loglist"></div>
-      <div class="empty" id="log-empty" style="display:none;">録音するとここに<br>文字起こしが表示されます</div>
+      <div class="empty" id="log-empty" style="display:none;">日記をつけるとここに<br>内容が表示されます</div>
     </div>
   </div>
 
@@ -168,6 +206,7 @@ input[type=time]{border:none;font-size:14px;color:var(--text);background:transpa
   <div class="screen" id="sc-settings">
     <div class="scroll">
       <div style="margin-bottom:16px;padding-top:4px;"><h2 style="font-size:20px;font-weight:700;color:var(--text);">設定</h2></div>
+
       <div class="ssec">
         <div class="shead">通知</div>
         <div class="scard">
@@ -176,6 +215,7 @@ input[type=time]{border:none;font-size:14px;color:var(--text);background:transpa
         </div>
         <div class="note">iPhoneの「ショートカット」アプリ → オートメーション → 時刻 → 「URLを開く」でこのアプリのURLを設定してください。</div>
       </div>
+
       <div class="ssec">
         <div class="shead">質問リスト</div>
         <div class="scard">
@@ -185,23 +225,27 @@ input[type=time]{border:none;font-size:14px;color:var(--text);background:transpa
             <button onclick="addQ()">＋ 質問を追加</button>
           </div>
         </div>
+        <div class="note">各質問に画像を追加できます。録音中に画像が表示されてイメージしやすくなります。</div>
       </div>
+
       <div class="ssec">
         <div class="shead">データ</div>
         <div class="scard">
           <div class="srow"><span class="slab">保存件数</span><span class="sval" id="data-count">0件</span></div>
-          <div class="srow"><span class="slab">音声データ</span><span class="sval">保存しない</span></div>
-          <div class="srow"><span class="slab">文字起こし</span><span class="sval">この端末に保存</span></div>
+          <div class="srow"><span class="slab">保存場所</span><span class="sval">この端末のみ</span></div>
         </div>
         <button class="delbtn" onclick="clearData()">すべての記録を削除</button>
       </div>
     </div>
   </div>
 
-  <div class="nav">
+  <!-- hidden file input for image upload -->
+  <input type="file" id="img-input" accept="image/*">
+
+  <div class="nav" id="main-nav">
     <button class="nb on" id="nb-home" onclick="tab('home')">
-      <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 3.27-3.32 5.8-6.91 5.8s-6.42-2.53-6.91-5.8H2.09C2.6 15.34 6.02 18.35 10 18.91V22h4v-3.09c3.98-.56 7.4-3.57 7.91-7.91h-2z"/></svg>
-      録音
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      ホーム
     </button>
     <button class="nb" id="nb-log" onclick="tab('log')">
       <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
@@ -215,128 +259,171 @@ input[type=time]{border:none;font-size:14px;color:var(--text);background:transpa
 </div>
 
 <script>
-const SK='vdiary_v4';
+const SK='vdiary_v6';
 const DAYS=['日','月','火','水','木','金','土'];
-let S={questions:['今日、一番よかったことは何ですか？','今日、難しかったことや改善したいことは？','今日の感情・気分を一言で表すと？','明日の自分へ一言。'],logs:[],notifOn:false,notifTime:'22:00'};
-function load(){try{const s=localStorage.getItem(SK);if(s)S={...S,...JSON.parse(s)};}catch(e){}}
-function save(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
-let recording=false,mediaRec=null,audioChunks=[],timerInt=null,secs=0,curQ=0,sessionQAs=[];
 
-function tab(n){
-  ['home','log','settings'].forEach(x=>{document.getElementById('sc-'+x).classList.remove('on');document.getElementById('nb-'+x).classList.remove('on');});
-  document.getElementById('sc-'+n).classList.add('on');document.getElementById('nb-'+n).classList.add('on');
-  if(n==='log')renderLog();if(n==='settings')renderSettings();
+let S={
+  questions:[
+    {text:'今日、一番よかったことは何ですか？', img:''},
+    {text:'今日、難しかったことや改善したいことは？', img:''},
+    {text:'今日の感情・気分を一言で表すと？', img:''},
+    {text:'明日の自分へ一言。', img:''}
+  ],
+  logs:[],notifOn:false,notifTime:'22:00'
+};
+
+function load(){
+  try{
+    const s=localStorage.getItem(SK);
+    if(s){
+      const parsed=JSON.parse(s);
+      // 旧フォーマット（文字列配列）を新フォーマットに変換
+      if(parsed.questions && typeof parsed.questions[0]==='string'){
+        parsed.questions=parsed.questions.map(t=>({text:t,img:''}));
+      }
+      S={...S,...parsed};
+    }
+  }catch(e){}
 }
+function save(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
+
+let curQ=0, sessionAnswers=[], entryStart=null, imgUploadTarget=-1;
+
+/* ---- Tab ---- */
+function tab(n){
+  ['home','log','settings','entry','done'].forEach(x=>{
+    document.getElementById('sc-'+x).classList.remove('on');
+    const nb=document.getElementById('nb-'+x);
+    if(nb)nb.classList.remove('on');
+  });
+  document.getElementById('sc-'+n).classList.add('on');
+  const nb=document.getElementById('nb-'+n);
+  if(nb)nb.classList.add('on');
+  document.getElementById('main-nav').style.display=(n==='entry'||n==='done')?'none':'flex';
+  if(n==='log')renderLog();
+  if(n==='settings')renderSettings();
+  if(n==='home')renderHomeList();
+}
+
+/* ---- Clock ---- */
 function initUI(){
   const d=new Date();
   document.getElementById('today-label').textContent=(d.getMonth()+1)+'月'+d.getDate()+'日（'+DAYS[d.getDay()]+'）';
   function tick(){const n=new Date();document.getElementById('sbar-time').textContent=pad(n.getHours())+':'+pad(n.getMinutes());}
   tick();setInterval(tick,15000);
 }
+function isSameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}
 function pad(n){return String(n).padStart(2,'0');}
-function onRecBtn(){if(!recording)startRec();}
 
-async function startRec(){
-  try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
-    mediaRec=new MediaRecorder(stream);audioChunks=[];sessionQAs=[];curQ=0;secs=0;
-    mediaRec.ondataavailable=e=>{if(e.data.size>0)audioChunks.push(e.data);};
-    mediaRec.start(500);recording=true;
-    document.getElementById('rbtn').classList.add('rec');
-    document.getElementById('rbtn').innerHTML='<svg viewBox="0 0 24 24" style="fill:#fff;width:28px;height:28px;"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
-    document.getElementById('rlabel').textContent='録音中...';
-    document.getElementById('qdisp').style.display='block';
-    document.getElementById('hsec').style.display='none';
-    updateQ();
-    timerInt=setInterval(()=>{secs++;document.getElementById('rtimer').textContent=pad(Math.floor(secs/60))+':'+pad(secs%60);},1000);
-  }catch(e){alert('マイクへのアクセスを許可してください。\nSafari設定 → マイク → 許可');}
+/* ---- Entry ---- */
+function startEntry(){
+  curQ=0;
+  sessionAnswers=S.questions.map(()=>'');
+  entryStart=new Date();
+  const d=entryStart;
+  document.getElementById('entry-date').textContent=(d.getMonth()+1)+'月'+d.getDate()+'日（'+DAYS[d.getDay()]+'）';
+  tab('entry');
+  showQ();
 }
 
-function updateQ(){
-  const q=S.questions;
-  document.getElementById('qnum').textContent='質問 '+(curQ+1)+' / '+q.length;
-  document.getElementById('qtext').textContent=q[curQ];
-  const nb=document.getElementById('btnNext');
-  if(curQ>=q.length-1){nb.textContent='録音終了';nb.onclick=stopRec;}
-  else{nb.textContent='次の質問へ';nb.onclick=nextQ;}
-}
-function nextQ(){sessionQAs.push({q:S.questions[curQ],a:''});if(curQ<S.questions.length-1){curQ++;updateQ();}}
+function showQ(){
+  const total=S.questions.length;
+  const q=S.questions[curQ];
+  document.getElementById('q-label').textContent='質問 '+(curQ+1)+' / '+total;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('entry-prog').textContent=(curQ+1)+' / '+total;
+  document.getElementById('prog-bar').style.width=(((curQ+1)/total)*100)+'%';
+  document.getElementById('answer-area').value=sessionAnswers[curQ];
 
-async function stopRec(){
-  clearInterval(timerInt);recording=false;
-  sessionQAs.push({q:S.questions[curQ],a:''});
-  document.getElementById('qdisp').style.display='none';
-  document.getElementById('rarea').style.display='none';
-  document.getElementById('done-panel').style.display='flex';
-  const prog=document.getElementById('prog'),msg=document.getElementById('done-msg');
-  if(mediaRec&&mediaRec.state!=='inactive'){
-    await new Promise(r=>{mediaRec.onstop=r;mediaRec.stop();});
-    mediaRec.stream.getTracks().forEach(t=>t.stop());
+  // 画像表示
+  const wrap=document.getElementById('q-image-wrap');
+  const img=document.getElementById('q-image');
+  if(q.img){
+    img.src=q.img;
+    wrap.style.display='block';
+  } else {
+    wrap.style.display='none';
+    img.src='';
   }
-  prog.style.width='30%';msg.textContent='音声を処理しています...';await sleep(400);
-  prog.style.width='60%';msg.textContent='文字起こし中...';
-  const transcripts=await doTranscribe();
-  sessionQAs.forEach((qa,i)=>{qa.a=transcripts[i]||'（音声認識できませんでした）';});
-  prog.style.width='90%';msg.textContent='保存しています...';await sleep(300);
-  const entry={id:Date.now(),date:new Date().toISOString(),duration:secs,qas:[...sessionQAs]};
+
+  const nextBtn=document.getElementById('btn-next-q');
+  if(curQ>=total-1){nextBtn.textContent='保存する';nextBtn.className='btn-next-q save';}
+  else{nextBtn.textContent='次の質問へ ›';nextBtn.className='btn-next-q';}
+  document.getElementById('btn-prev').style.visibility=curQ===0?'hidden':'visible';
+
+  setTimeout(()=>document.getElementById('answer-area').focus(),300);
+}
+
+function nextQ(){
+  sessionAnswers[curQ]=document.getElementById('answer-area').value.trim();
+  if(curQ>=S.questions.length-1){saveEntry();}
+  else{curQ++;showQ();}
+}
+function prevQ(){
+  sessionAnswers[curQ]=document.getElementById('answer-area').value.trim();
+  if(curQ>0){curQ--;showQ();}
+}
+function saveEntry(){
+  const now=new Date();
+  const secs=Math.round((now-entryStart)/1000);
+  const entry={id:Date.now(),date:now.toISOString(),duration:secs,qas:S.questions.map((q,i)=>({q:q.text,a:sessionAnswers[i]||''}))};
   S.logs.unshift(entry);
   if(S.logs.length>30)S.logs=S.logs.slice(0,30);
-  save();audioChunks=[];
-  prog.style.width='100%';await sleep(200);
-  const ico=document.getElementById('done-ico');
-  ico.className='done-ico ok';
-  ico.innerHTML='<svg viewBox="0 0 24 24" width="28" height="28"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
-  document.getElementById('done-title').textContent='完了！';
-  msg.textContent='文字起こしを保存しました。\n履歴タブから確認できます。';
-  document.getElementById('done-home-btn').style.display='block';
+  save();
+  tab('done');
 }
 
-async function doTranscribe(){
-  return new Promise(resolve=>{
-    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-    if(!SR){resolve(sessionQAs.map(()=>'（Safariをお使いください。このブラウザは音声認識非対応です）'));return;}
-    const blob=new Blob(audioChunks,{type:mediaRec.mimeType||'audio/webm'});
-    const url=URL.createObjectURL(blob);
-    const audio=new Audio(url);
-    const rec=new SR();
-    rec.lang='ja-JP';rec.continuous=true;rec.interimResults=false;
-    const parts=[];
-    rec.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)parts.push(e.results[i][0].transcript);};
-    rec.onend=()=>{URL.revokeObjectURL(url);const full=parts.join('');resolve(sessionQAs.map((_,i)=>parts[i]||(i===0?full:'')||'（音声を認識できませんでした）'));};
-    rec.onerror=()=>resolve(sessionQAs.map(()=>'（音声認識エラー）'));
-    try{rec.start();audio.play().catch(()=>{});setTimeout(()=>{try{rec.stop();}catch(e){}},Math.max(secs*1000+2000,4000));}
-    catch(e){resolve(sessionQAs.map(()=>'（音声認識できませんでした）'));}
-  });
+/* ---- Image upload ---- */
+function triggerImgUpload(idx){
+  imgUploadTarget=idx;
+  const inp=document.getElementById('img-input');
+  inp.value='';
+  inp.click();
+}
+document.getElementById('img-input').addEventListener('change',function(e){
+  const file=e.target.files[0];
+  if(!file||imgUploadTarget<0)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    // 画像をリサイズして保存（容量削減）
+    const img=new Image();
+    img.onload=function(){
+      const canvas=document.createElement('canvas');
+      const MAX=800;
+      let w=img.width,h=img.height;
+      if(w>h&&w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+      else if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      S.questions[imgUploadTarget].img=canvas.toDataURL('image/jpeg',0.75);
+      save();
+      renderSettings();
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+function removeImg(idx){
+  S.questions[idx].img='';
+  save();
+  renderSettings();
 }
 
-function backHome(){
-  document.getElementById('done-panel').style.display='none';
-  document.getElementById('rarea').style.display='block';
-  document.getElementById('hsec').style.display='block';
-  const ico=document.getElementById('done-ico');
-  ico.className='done-ico spin';
-  ico.innerHTML='<svg viewBox="0 0 24 24" width="28" height="28"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"/></svg>';
-  document.getElementById('done-title').textContent='処理中...';
-  document.getElementById('done-msg').textContent='';
-  document.getElementById('done-home-btn').style.display='none';
-  document.getElementById('prog').style.width='0%';
-  document.getElementById('rbtn').classList.remove('rec');
-  document.getElementById('rbtn').innerHTML='<svg viewBox="0 0 24 24" style="fill:#fff;width:32px;height:32px;"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 3.27-3.32 5.8-6.91 5.8s-6.42-2.53-6.91-5.8H2.09C2.6 15.34 6.02 18.35 10 18.91V22h4v-3.09c3.98-.56 7.4-3.57 7.91-7.91h-2z"/></svg>';
-  document.getElementById('rlabel').textContent='タップして録音開始';
-  document.getElementById('rtimer').textContent='';
-  renderHomeList();
-}
-
+/* ---- Render ---- */
 function renderHomeList(){
   const list=document.getElementById('hlist'),empty=document.getElementById('hempty');
+  const d=new Date();
+  const alreadyDone=S.logs.length>0&&isSameDay(new Date(S.logs[0].date),d);
+  document.getElementById('today-sub').textContent=alreadyDone?'今日はもう記録済みです ✓':'今日の日記をつけよう';
   list.innerHTML='';
   if(!S.logs.length){empty.style.display='block';return;}
   empty.style.display='none';
   S.logs.slice(0,5).forEach(log=>{
-    const d=new Date(log.date);
+    const ld=new Date(log.date);
     const div=document.createElement('div');div.className='hitem';
-    div.innerHTML='<div><div class="hdate">'+(d.getMonth()+1)+'月'+d.getDate()+'日（'+DAYS[d.getDay()]+'）</div><div class="hdur">'+Math.floor(log.duration/60)+'分'+pad(log.duration%60)+'秒　'+log.qas.length+'問</div></div><span style="font-size:18px;color:var(--text3);">›</span>';
-    div.onclick=()=>tab('log');list.appendChild(div);
+    div.innerHTML='<div><div class="hdate">'+(ld.getMonth()+1)+'月'+ld.getDate()+'日（'+DAYS[ld.getDay()]+'）</div><div class="hdur">'+pad(ld.getHours())+':'+pad(ld.getMinutes())+'　'+log.qas.length+'問</div></div><span style="font-size:18px;color:var(--text3);">›</span>';
+    div.onclick=()=>tab('log');
+    list.appendChild(div);
   });
 }
 
@@ -348,19 +435,41 @@ function renderLog(){
   S.logs.forEach(log=>{
     const d=new Date(log.date);
     const card=document.createElement('div');card.className='log-entry';
-    let h='<div class="log-date"><span>'+(d.getMonth()+1)+'月'+d.getDate()+'日（'+DAYS[d.getDay()]+'）　'+pad(d.getHours())+':'+pad(d.getMinutes())+'　'+Math.floor(log.duration/60)+'分'+pad(log.duration%60)+'秒</span><button class="log-del" onclick="deleteLog('+log.id+')">削除</button></div>';
-    (log.qas||[]).forEach(qa=>{h+='<div class="log-qa"><div class="log-q">'+qa.q+'</div><div class="log-a">'+(qa.a||'（未回答）')+'</div></div>';});
+    let h='<div class="log-date"><span>'+(d.getMonth()+1)+'月'+d.getDate()+'日（'+DAYS[d.getDay()]+'）　'+pad(d.getHours())+':'+pad(d.getMinutes())+'</span><button class="log-del" onclick="deleteLog('+log.id+')">削除</button></div>';
+    (log.qas||[]).forEach(qa=>{
+      if(qa.a)h+='<div class="log-qa"><div class="log-q">'+qa.q+'</div><div class="log-a">'+qa.a+'</div></div>';
+    });
     card.innerHTML=h;list.appendChild(card);
   });
 }
-
 function deleteLog(id){if(!confirm('この記録を削除しますか？'))return;S.logs=S.logs.filter(l=>l.id!==id);save();renderLog();renderHomeList();}
 
 function renderSettings(){
-  const ql=document.getElementById('qlist-s');ql.innerHTML='';
+  const ql=document.getElementById('qlist-s');
+  ql.innerHTML='';
   S.questions.forEach((q,i)=>{
     const div=document.createElement('div');div.className='qi';
-    div.innerHTML='<div class="qitxt">'+q+'</div><div class="qiact"><button class="chip" onclick="mqUp('+i+')">↑</button><button class="chip" onclick="mqDown('+i+')">↓</button><button class="chip del" onclick="mqDel('+i+')">削除</button></div>';
+    const hasImg=!!q.img;
+    let imgHTML='';
+    if(hasImg){
+      imgHTML='<img class="qi-img" src="'+q.img+'" alt="" onclick="triggerImgUpload('+i+')">';
+    } else {
+      imgHTML='<div class="qi-img-placeholder" onclick="triggerImgUpload('+i+')"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>';
+    }
+    div.innerHTML=
+      '<div class="qi-top">'+
+        imgHTML+
+        '<div class="qi-body">'+
+          '<div class="qitxt">'+q.text+'</div>'+
+          '<div class="qiact">'+
+            '<button class="chip" onclick="mqUp('+i+')">↑</button>'+
+            '<button class="chip" onclick="mqDown('+i+')">↓</button>'+
+            '<button class="chip img" onclick="triggerImgUpload('+i+')">'+(hasImg?'画像を変更':'＋ 画像を追加')+'</button>'+
+            (hasImg?'<button class="chip img-del" onclick="removeImg('+i+')">画像を削除</button>':'')+
+            '<button class="chip del" onclick="mqDel('+i+')">削除</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
     ql.appendChild(div);
   });
   document.getElementById('notif-time').value=S.notifTime||'22:00';
@@ -369,12 +478,16 @@ function renderSettings(){
 }
 
 function toggleNotif(){S.notifOn=!S.notifOn;save();renderSettings();}
-function addQ(){const inp=document.getElementById('newq'),v=inp.value.trim();if(!v)return;S.questions.push(v);save();inp.value='';renderSettings();}
+function addQ(){
+  const inp=document.getElementById('newq'),v=inp.value.trim();
+  if(!v)return;
+  S.questions.push({text:v,img:''});
+  save();inp.value='';renderSettings();
+}
 function mqDel(i){if(S.questions.length<=1)return;S.questions.splice(i,1);save();renderSettings();}
 function mqUp(i){if(i===0)return;[S.questions[i-1],S.questions[i]]=[S.questions[i],S.questions[i-1]];save();renderSettings();}
 function mqDown(i){if(i>=S.questions.length-1)return;[S.questions[i],S.questions[i+1]]=[S.questions[i+1],S.questions[i]];save();renderSettings();}
 function clearData(){if(!confirm('すべての記録を削除しますか？この操作は取り消せません。'))return;S.logs=[];save();renderLog();renderHomeList();renderSettings();}
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
 load();initUI();renderHomeList();
 </script>
