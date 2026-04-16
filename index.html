@@ -49,26 +49,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;di
 .hdate{font-size:14px;font-weight:600;color:var(--text);}
 .hdur{font-size:12px;color:var(--text2);margin-top:2px;}
 
-/* Entry */
+/* ===== ENTRY SCREEN ===== */
 .entry-header{background:var(--purple);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .entry-header h2{font-size:16px;font-weight:600;color:#fff;}
 .entry-progress{font-size:13px;color:rgba(255,255,255,.75);}
 .progress-track{height:3px;background:rgba(255,255,255,.25);flex-shrink:0;}
-.progress-bar{height:100%;background:#fff;transition:width .3s ease;}
-.qblock{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 8px;}
+.progress-bar{height:100%;background:#fff;transition:width .35s ease;}
+
+/* 上部：質問エリア（スクロール可能） */
+.q-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 16px 12px;}
 .q-label{font-size:11px;color:var(--purple);font-weight:600;margin-bottom:8px;letter-spacing:.3px;}
-.q-text{font-size:18px;font-weight:600;color:var(--text);line-height:1.45;margin-bottom:12px;}
+.q-text{font-size:20px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:14px;}
+.q-image-wrap{margin-bottom:16px;border-radius:14px;overflow:hidden;background:var(--bg2);}
+.q-image-wrap img{width:100%;display:block;max-height:200px;object-fit:cover;}
 
-/* Question image */
-.q-image-wrap{margin-bottom:14px;border-radius:14px;overflow:hidden;background:var(--bg2);position:relative;}
-.q-image-wrap img{width:100%;display:block;max-height:220px;object-fit:cover;}
-
-.q-hint{font-size:12px;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
-.q-hint svg{width:14px;height:14px;fill:var(--text3);flex-shrink:0;}
-.answer-area{width:100%;min-height:110px;padding:14px;border:1.5px solid var(--border2);border-radius:14px;font-size:16px;color:var(--text);background:var(--bg2);resize:none;-webkit-appearance:none;outline:none;font-family:inherit;line-height:1.6;}
+/* 下部：入力エリア（固定） */
+.entry-bottom{flex-shrink:0;background:var(--bg);border-top:0.5px solid var(--border);padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px));}
+.q-hint{font-size:12px;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:5px;}
+.q-hint svg{width:13px;height:13px;fill:var(--text3);flex-shrink:0;}
+.answer-area{
+  width:100%;
+  min-height:90px;
+  max-height:180px;
+  padding:13px 14px;
+  border:1.5px solid var(--border2);
+  border-radius:14px;
+  font-size:16px;
+  color:var(--text);
+  background:var(--bg2);
+  resize:none;
+  -webkit-appearance:none;
+  outline:none;
+  font-family:inherit;
+  line-height:1.6;
+  display:block;
+}
 .answer-area:focus{border-color:var(--purple);}
-.entry-actions{padding:14px 16px;display:flex;gap:10px;flex-shrink:0;border-top:0.5px solid var(--border);}
-.btn-prev{padding:13px 18px;background:none;border:0.5px solid var(--border2);border-radius:12px;font-size:14px;color:var(--text2);cursor:pointer;-webkit-appearance:none;}
+.entry-actions{display:flex;gap:10px;margin-top:10px;}
+.btn-prev{padding:13px 18px;background:none;border:0.5px solid var(--border2);border-radius:12px;font-size:14px;color:var(--text2);cursor:pointer;-webkit-appearance:none;white-space:nowrap;}
 .btn-next-q{flex:1;padding:13px;background:var(--purple);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;-webkit-appearance:none;}
 .btn-next-q:active{opacity:.85;}
 .btn-next-q.save{background:var(--green-dark);}
@@ -80,6 +98,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;di
 .done h2{font-size:22px;font-weight:700;color:var(--text);margin-bottom:8px;}
 .done p{font-size:14px;color:var(--text2);line-height:1.7;}
 .done-btn{margin-top:28px;padding:14px 36px;background:var(--purple);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;-webkit-appearance:none;}
+.done-btn:active{opacity:.85;}
 
 /* Log */
 .log-entry{background:var(--bg);border:0.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;}
@@ -103,12 +122,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;di
 .tog.off{background:var(--bg3);}
 .tog.off::after{right:auto;left:3px;}
 input[type=time]{border:none;font-size:14px;color:var(--text);background:transparent;cursor:pointer;outline:none;}
-
-/* Question list in settings */
 .qi{padding:12px 16px;border-bottom:0.5px solid var(--border);}
 .qi:last-child{border-bottom:none;}
 .qi-top{display:flex;align-items:flex-start;gap:10px;}
-.qi-img{width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0;border:0.5px solid var(--border);}
+.qi-img{width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0;border:0.5px solid var(--border);cursor:pointer;}
 .qi-img-placeholder{width:48px;height:48px;border-radius:8px;background:var(--bg2);border:1.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
 .qi-img-placeholder svg{width:20px;height:20px;fill:var(--text3);}
 .qi-body{flex:1;min-width:0;}
@@ -162,21 +179,27 @@ input[type=file]{display:none;}
     <div class="progress-track">
       <div class="progress-bar" id="prog-bar" style="width:25%;"></div>
     </div>
-    <div class="qblock" id="qblock">
+
+    <!-- 上部：質問・画像（スクロール可能） -->
+    <div class="q-scroll" id="q-scroll">
       <div class="q-label" id="q-label">質問 1</div>
       <div class="q-text" id="q-text"></div>
       <div class="q-image-wrap" id="q-image-wrap" style="display:none;">
         <img id="q-image" src="" alt="">
       </div>
+    </div>
+
+    <!-- 下部：テキストエリア＋ボタン（画面下固定） -->
+    <div class="entry-bottom">
       <div class="q-hint">
         <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 3.27-3.32 5.8-6.91 5.8s-6.42-2.53-6.91-5.8H2.09C2.6 15.34 6.02 18.35 10 18.91V22h4v-3.09c3.98-.56 7.4-3.57 7.91-7.91h-2z"/></svg>
-        キーボードの🎤で話すと音声入力できます
+        キーボードの🎤で音声入力できます
       </div>
-      <textarea class="answer-area" id="answer-area" placeholder="ここに答えを入力（キーボードの🎤で音声入力）"></textarea>
-    </div>
-    <div class="entry-actions">
-      <button class="btn-prev" id="btn-prev" onclick="prevQ()">‹ 戻る</button>
-      <button class="btn-next-q" id="btn-next-q" onclick="nextQ()">次の質問へ ›</button>
+      <textarea class="answer-area" id="answer-area" placeholder="ここに答えを入力..."></textarea>
+      <div class="entry-actions">
+        <button class="btn-prev" id="btn-prev" onclick="prevQ()">‹ 戻る</button>
+        <button class="btn-next-q" id="btn-next-q" onclick="nextQ()">次の質問へ ›</button>
+      </div>
     </div>
   </div>
 
@@ -206,7 +229,6 @@ input[type=file]{display:none;}
   <div class="screen" id="sc-settings">
     <div class="scroll">
       <div style="margin-bottom:16px;padding-top:4px;"><h2 style="font-size:20px;font-weight:700;color:var(--text);">設定</h2></div>
-
       <div class="ssec">
         <div class="shead">通知</div>
         <div class="scard">
@@ -215,7 +237,6 @@ input[type=file]{display:none;}
         </div>
         <div class="note">iPhoneの「ショートカット」アプリ → オートメーション → 時刻 → 「URLを開く」でこのアプリのURLを設定してください。</div>
       </div>
-
       <div class="ssec">
         <div class="shead">質問リスト</div>
         <div class="scard">
@@ -225,9 +246,8 @@ input[type=file]{display:none;}
             <button onclick="addQ()">＋ 質問を追加</button>
           </div>
         </div>
-        <div class="note">各質問に画像を追加できます。録音中に画像が表示されてイメージしやすくなります。</div>
+        <div class="note">各質問に画像を設定できます。日記入力中に画像が上部に表示されます。</div>
       </div>
-
       <div class="ssec">
         <div class="shead">データ</div>
         <div class="scard">
@@ -239,7 +259,6 @@ input[type=file]{display:none;}
     </div>
   </div>
 
-  <!-- hidden file input for image upload -->
   <input type="file" id="img-input" accept="image/*">
 
   <div class="nav" id="main-nav">
@@ -261,51 +280,42 @@ input[type=file]{display:none;}
 <script>
 const SK='vdiary_v6';
 const DAYS=['日','月','火','水','木','金','土'];
-
 let S={
   questions:[
-    {text:'今日、一番よかったことは何ですか？', img:''},
-    {text:'今日、難しかったことや改善したいことは？', img:''},
-    {text:'今日の感情・気分を一言で表すと？', img:''},
-    {text:'明日の自分へ一言。', img:''}
+    {text:'今日、一番よかったことは何ですか？',img:''},
+    {text:'今日、難しかったことや改善したいことは？',img:''},
+    {text:'今日の感情・気分を一言で表すと？',img:''},
+    {text:'明日の自分へ一言。',img:''}
   ],
   logs:[],notifOn:false,notifTime:'22:00'
 };
-
 function load(){
   try{
     const s=localStorage.getItem(SK);
     if(s){
-      const parsed=JSON.parse(s);
-      // 旧フォーマット（文字列配列）を新フォーマットに変換
-      if(parsed.questions && typeof parsed.questions[0]==='string'){
-        parsed.questions=parsed.questions.map(t=>({text:t,img:''}));
-      }
-      S={...S,...parsed};
+      const p=JSON.parse(s);
+      if(p.questions&&typeof p.questions[0]==='string') p.questions=p.questions.map(t=>({text:t,img:''}));
+      S={...S,...p};
     }
   }catch(e){}
 }
 function save(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
 
-let curQ=0, sessionAnswers=[], entryStart=null, imgUploadTarget=-1;
+let curQ=0,sessionAnswers=[],entryStart=null,imgUploadTarget=-1;
 
-/* ---- Tab ---- */
 function tab(n){
   ['home','log','settings','entry','done'].forEach(x=>{
     document.getElementById('sc-'+x).classList.remove('on');
-    const nb=document.getElementById('nb-'+x);
-    if(nb)nb.classList.remove('on');
+    const nb=document.getElementById('nb-'+x);if(nb)nb.classList.remove('on');
   });
   document.getElementById('sc-'+n).classList.add('on');
-  const nb=document.getElementById('nb-'+n);
-  if(nb)nb.classList.add('on');
+  const nb=document.getElementById('nb-'+n);if(nb)nb.classList.add('on');
   document.getElementById('main-nav').style.display=(n==='entry'||n==='done')?'none':'flex';
   if(n==='log')renderLog();
   if(n==='settings')renderSettings();
   if(n==='home')renderHomeList();
 }
 
-/* ---- Clock ---- */
 function initUI(){
   const d=new Date();
   document.getElementById('today-label').textContent=(d.getMonth()+1)+'月'+d.getDate()+'日（'+DAYS[d.getDay()]+'）';
@@ -315,7 +325,6 @@ function initUI(){
 function isSameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}
 function pad(n){return String(n).padStart(2,'0');}
 
-/* ---- Entry ---- */
 function startEntry(){
   curQ=0;
   sessionAnswers=S.questions.map(()=>'');
@@ -335,22 +344,20 @@ function showQ(){
   document.getElementById('prog-bar').style.width=(((curQ+1)/total)*100)+'%';
   document.getElementById('answer-area').value=sessionAnswers[curQ];
 
-  // 画像表示
   const wrap=document.getElementById('q-image-wrap');
   const img=document.getElementById('q-image');
-  if(q.img){
-    img.src=q.img;
-    wrap.style.display='block';
-  } else {
-    wrap.style.display='none';
-    img.src='';
-  }
+  if(q.img){img.src=q.img;wrap.style.display='block';}
+  else{wrap.style.display='none';img.src='';}
 
   const nextBtn=document.getElementById('btn-next-q');
-  if(curQ>=total-1){nextBtn.textContent='保存する';nextBtn.className='btn-next-q save';}
+  if(curQ>=total-1){nextBtn.textContent='保存する ✓';nextBtn.className='btn-next-q save';}
   else{nextBtn.textContent='次の質問へ ›';nextBtn.className='btn-next-q';}
   document.getElementById('btn-prev').style.visibility=curQ===0?'hidden':'visible';
 
+  // 質問エリアを先頭にスクロール
+  document.getElementById('q-scroll').scrollTop=0;
+
+  // テキストエリアにフォーカス
   setTimeout(()=>document.getElementById('answer-area').focus(),300);
 }
 
@@ -369,23 +376,20 @@ function saveEntry(){
   const entry={id:Date.now(),date:now.toISOString(),duration:secs,qas:S.questions.map((q,i)=>({q:q.text,a:sessionAnswers[i]||''}))};
   S.logs.unshift(entry);
   if(S.logs.length>30)S.logs=S.logs.slice(0,30);
-  save();
-  tab('done');
+  save();tab('done');
 }
 
-/* ---- Image upload ---- */
+/* Image upload */
 function triggerImgUpload(idx){
   imgUploadTarget=idx;
-  const inp=document.getElementById('img-input');
-  inp.value='';
-  inp.click();
+  document.getElementById('img-input').value='';
+  document.getElementById('img-input').click();
 }
 document.getElementById('img-input').addEventListener('change',function(e){
   const file=e.target.files[0];
   if(!file||imgUploadTarget<0)return;
   const reader=new FileReader();
   reader.onload=function(ev){
-    // 画像をリサイズして保存（容量削減）
     const img=new Image();
     img.onload=function(){
       const canvas=document.createElement('canvas');
@@ -396,25 +400,20 @@ document.getElementById('img-input').addEventListener('change',function(e){
       canvas.width=w;canvas.height=h;
       canvas.getContext('2d').drawImage(img,0,0,w,h);
       S.questions[imgUploadTarget].img=canvas.toDataURL('image/jpeg',0.75);
-      save();
-      renderSettings();
+      save();renderSettings();
     };
     img.src=ev.target.result;
   };
   reader.readAsDataURL(file);
 });
-function removeImg(idx){
-  S.questions[idx].img='';
-  save();
-  renderSettings();
-}
+function removeImg(idx){S.questions[idx].img='';save();renderSettings();}
 
-/* ---- Render ---- */
+/* Render */
 function renderHomeList(){
   const list=document.getElementById('hlist'),empty=document.getElementById('hempty');
   const d=new Date();
-  const alreadyDone=S.logs.length>0&&isSameDay(new Date(S.logs[0].date),d);
-  document.getElementById('today-sub').textContent=alreadyDone?'今日はもう記録済みです ✓':'今日の日記をつけよう';
+  const done=S.logs.length>0&&isSameDay(new Date(S.logs[0].date),d);
+  document.getElementById('today-sub').textContent=done?'今日はもう記録済みです ✓':'今日の日記をつけよう';
   list.innerHTML='';
   if(!S.logs.length){empty.style.display='block';return;}
   empty.style.display='none';
@@ -422,8 +421,7 @@ function renderHomeList(){
     const ld=new Date(log.date);
     const div=document.createElement('div');div.className='hitem';
     div.innerHTML='<div><div class="hdate">'+(ld.getMonth()+1)+'月'+ld.getDate()+'日（'+DAYS[ld.getDay()]+'）</div><div class="hdur">'+pad(ld.getHours())+':'+pad(ld.getMinutes())+'　'+log.qas.length+'問</div></div><span style="font-size:18px;color:var(--text3);">›</span>';
-    div.onclick=()=>tab('log');
-    list.appendChild(div);
+    div.onclick=()=>tab('log');list.appendChild(div);
   });
 }
 
@@ -445,31 +443,22 @@ function renderLog(){
 function deleteLog(id){if(!confirm('この記録を削除しますか？'))return;S.logs=S.logs.filter(l=>l.id!==id);save();renderLog();renderHomeList();}
 
 function renderSettings(){
-  const ql=document.getElementById('qlist-s');
-  ql.innerHTML='';
+  const ql=document.getElementById('qlist-s');ql.innerHTML='';
   S.questions.forEach((q,i)=>{
     const div=document.createElement('div');div.className='qi';
     const hasImg=!!q.img;
-    let imgHTML='';
-    if(hasImg){
-      imgHTML='<img class="qi-img" src="'+q.img+'" alt="" onclick="triggerImgUpload('+i+')">';
-    } else {
-      imgHTML='<div class="qi-img-placeholder" onclick="triggerImgUpload('+i+')"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>';
-    }
+    const imgHTML=hasImg
+      ?'<img class="qi-img" src="'+q.img+'" alt="" onclick="triggerImgUpload('+i+')">'
+      :'<div class="qi-img-placeholder" onclick="triggerImgUpload('+i+')"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>';
     div.innerHTML=
-      '<div class="qi-top">'+
-        imgHTML+
-        '<div class="qi-body">'+
-          '<div class="qitxt">'+q.text+'</div>'+
-          '<div class="qiact">'+
-            '<button class="chip" onclick="mqUp('+i+')">↑</button>'+
-            '<button class="chip" onclick="mqDown('+i+')">↓</button>'+
-            '<button class="chip img" onclick="triggerImgUpload('+i+')">'+(hasImg?'画像を変更':'＋ 画像を追加')+'</button>'+
-            (hasImg?'<button class="chip img-del" onclick="removeImg('+i+')">画像を削除</button>':'')+
-            '<button class="chip del" onclick="mqDel('+i+')">削除</button>'+
-          '</div>'+
-        '</div>'+
-      '</div>';
+      '<div class="qi-top">'+imgHTML+
+      '<div class="qi-body"><div class="qitxt">'+q.text+'</div><div class="qiact">'+
+      '<button class="chip" onclick="mqUp('+i+')">↑</button>'+
+      '<button class="chip" onclick="mqDown('+i+')">↓</button>'+
+      '<button class="chip img" onclick="triggerImgUpload('+i+')">'+(hasImg?'画像変更':'＋画像')+'</button>'+
+      (hasImg?'<button class="chip img-del" onclick="removeImg('+i+')">画像削除</button>':'')+
+      '<button class="chip del" onclick="mqDel('+i+')">削除</button>'+
+      '</div></div></div>';
     ql.appendChild(div);
   });
   document.getElementById('notif-time').value=S.notifTime||'22:00';
@@ -478,12 +467,7 @@ function renderSettings(){
 }
 
 function toggleNotif(){S.notifOn=!S.notifOn;save();renderSettings();}
-function addQ(){
-  const inp=document.getElementById('newq'),v=inp.value.trim();
-  if(!v)return;
-  S.questions.push({text:v,img:''});
-  save();inp.value='';renderSettings();
-}
+function addQ(){const inp=document.getElementById('newq'),v=inp.value.trim();if(!v)return;S.questions.push({text:v,img:''});save();inp.value='';renderSettings();}
 function mqDel(i){if(S.questions.length<=1)return;S.questions.splice(i,1);save();renderSettings();}
 function mqUp(i){if(i===0)return;[S.questions[i-1],S.questions[i]]=[S.questions[i],S.questions[i-1]];save();renderSettings();}
 function mqDown(i){if(i>=S.questions.length-1)return;[S.questions[i],S.questions[i+1]]=[S.questions[i+1],S.questions[i]];save();renderSettings();}
