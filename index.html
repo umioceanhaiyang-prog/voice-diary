@@ -13,6 +13,7 @@
   --purple:#7F77DD;--purple-light:#EEEDFE;--purple-dark:#3C3489;--purple-mid:#534AB7;
   --green-light:#EAF3DE;--green-dark:#3B6D11;
   --red:#E24B4A;--red-light:#FCEBEB;--red-dark:#A32D2D;
+  --orange:#FF9500;
   --bg:#fff;--bg2:#f5f5f7;--bg3:#e8e8ed;
   --text:#1a1a1a;--text2:#666;--text3:#999;
   --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);
@@ -55,35 +56,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;di
 .entry-progress{font-size:13px;color:rgba(255,255,255,.75);}
 .progress-track{height:3px;background:rgba(255,255,255,.25);flex-shrink:0;}
 .progress-bar{height:100%;background:#fff;transition:width .35s ease;}
-
-/* 上部：質問エリア（スクロール可能） */
 .q-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 16px 12px;}
 .q-label{font-size:11px;color:var(--purple);font-weight:600;margin-bottom:8px;letter-spacing:.3px;}
+.q-label .widget-tag{font-size:10px;background:var(--orange);color:#fff;border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:middle;}
 .q-text{font-size:20px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:14px;}
 .q-image-wrap{margin-bottom:16px;border-radius:14px;overflow:hidden;background:var(--bg2);}
 .q-image-wrap img{width:100%;display:block;max-height:200px;object-fit:cover;}
-
-/* 下部：入力エリア（固定） */
 .entry-bottom{flex-shrink:0;background:var(--bg);border-top:0.5px solid var(--border);padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px));}
 .q-hint{font-size:12px;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:5px;}
 .q-hint svg{width:13px;height:13px;fill:var(--text3);flex-shrink:0;}
-.answer-area{
-  width:100%;
-  min-height:90px;
-  max-height:180px;
-  padding:13px 14px;
-  border:1.5px solid var(--border2);
-  border-radius:14px;
-  font-size:16px;
-  color:var(--text);
-  background:var(--bg2);
-  resize:none;
-  -webkit-appearance:none;
-  outline:none;
-  font-family:inherit;
-  line-height:1.6;
-  display:block;
-}
+.answer-area{width:100%;min-height:90px;max-height:180px;padding:13px 14px;border:1.5px solid var(--border2);border-radius:14px;font-size:16px;color:var(--text);background:var(--bg2);resize:none;-webkit-appearance:none;outline:none;font-family:inherit;line-height:1.6;display:block;}
 .answer-area:focus{border-color:var(--purple);}
 .entry-actions{display:flex;gap:10px;margin-top:10px;}
 .btn-prev{padding:13px 18px;background:none;border:0.5px solid var(--border2);border-radius:12px;font-size:14px;color:var(--text2);cursor:pointer;-webkit-appearance:none;white-space:nowrap;}
@@ -92,20 +74,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;di
 .btn-next-q.save{background:var(--green-dark);}
 
 /* Done */
-.done-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
+.done-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:32px 24px;padding-bottom:calc(32px + env(safe-area-inset-bottom,0px));}
+.done{display:flex;flex-direction:column;align-items:center;text-align:center;}
 .done-ico{width:72px;height:72px;border-radius:50%;background:var(--green-light);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
 .done-ico svg{width:36px;height:36px;fill:var(--green-dark);}
 .done h2{font-size:22px;font-weight:700;color:var(--text);margin-bottom:8px;}
 .done p{font-size:14px;color:var(--text2);line-height:1.7;}
-.done-btn{margin-top:28px;padding:14px 36px;background:var(--purple);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;-webkit-appearance:none;}
+.done-btn{margin-top:16px;padding:14px 36px;background:var(--bg2);color:var(--text);border:0.5px solid var(--border2);border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;-webkit-appearance:none;}
 .done-btn:active{opacity:.85;}
+
+/* Widget Done Section */
+.widget-done{width:100%;margin-top:24px;background:var(--purple-light);border-radius:18px;padding:16px;text-align:left;}
+.widget-done-title{font-size:12px;color:var(--purple);font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.widget-answer-preview{background:var(--bg);border-radius:12px;padding:13px 14px;font-size:15px;color:var(--text);line-height:1.65;margin-bottom:12px;min-height:44px;}
+.widget-update-btn{width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;gap:8px;}
+.widget-update-btn:active{opacity:.85;}
+.widget-update-btn svg{width:18px;height:18px;fill:#fff;flex-shrink:0;}
+.widget-hint{font-size:11px;color:var(--purple);margin-top:10px;line-height:1.6;opacity:.8;}
 
 /* Log */
 .log-entry{background:var(--bg);border:0.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;}
 .log-date{font-size:12px;color:var(--text2);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
 .log-del{font-size:12px;color:var(--red);background:none;border:none;cursor:pointer;-webkit-appearance:none;}
 .log-qa{margin-bottom:10px;}
-.log-q{font-size:11px;color:var(--purple);font-weight:600;margin-bottom:4px;}
+.log-q{font-size:11px;color:var(--purple);font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:5px;}
+.log-q .widget-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);flex-shrink:0;}
 .log-a{font-size:14px;color:var(--text);line-height:1.65;}
 .empty{text-align:center;padding:64px 24px;color:var(--text3);font-size:14px;line-height:1.8;}
 
@@ -122,6 +115,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;di
 .tog.off{background:var(--bg3);}
 .tog.off::after{right:auto;left:3px;}
 input[type=time]{border:none;font-size:14px;color:var(--text);background:transparent;cursor:pointer;outline:none;}
+input[type=text].sinput{border:none;font-size:14px;color:var(--text);background:transparent;outline:none;text-align:right;max-width:160px;}
 .qi{padding:12px 16px;border-bottom:0.5px solid var(--border);}
 .qi:last-child{border-bottom:none;}
 .qi-top{display:flex;align-items:flex-start;gap:10px;}
@@ -129,17 +123,25 @@ input[type=time]{border:none;font-size:14px;color:var(--text);background:transpa
 .qi-img-placeholder{width:48px;height:48px;border-radius:8px;background:var(--bg2);border:1.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
 .qi-img-placeholder svg{width:20px;height:20px;fill:var(--text3);}
 .qi-body{flex:1;min-width:0;}
-.qitxt{font-size:14px;color:var(--text);margin-bottom:6px;line-height:1.4;}
+.qitxt{font-size:14px;color:var(--text);margin-bottom:6px;line-height:1.4;display:flex;align-items:center;gap:6px;}
+.qi-widget-badge{font-size:10px;background:var(--orange);color:#fff;border-radius:6px;padding:1px 6px;white-space:nowrap;flex-shrink:0;}
 .qiact{display:flex;gap:6px;flex-wrap:wrap;}
 .chip{font-size:11px;padding:4px 10px;border-radius:20px;border:0.5px solid var(--border2);color:var(--text2);cursor:pointer;background:none;-webkit-appearance:none;}
 .chip.del{color:var(--red-dark);border-color:#F09595;}
 .chip.img{color:var(--purple);border-color:var(--purple);}
 .chip.img-del{color:var(--text3);}
+.chip.widget{color:var(--orange);border-color:var(--orange);}
+.chip.widget.active{background:var(--orange);color:#fff;}
 .addq{padding:12px 16px;border-top:0.5px solid var(--border);}
 .addq input{width:100%;padding:10px 12px;border:0.5px solid var(--border2);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg2);-webkit-appearance:none;outline:none;}
 .addq button{width:100%;margin-top:8px;padding:10px;background:none;border:0.5px solid var(--purple);border-radius:10px;color:var(--purple);font-size:14px;cursor:pointer;font-weight:600;-webkit-appearance:none;}
 .delbtn{width:100%;margin-top:10px;padding:13px;background:none;border:0.5px solid var(--red);border-radius:14px;font-size:14px;color:var(--red);cursor:pointer;font-weight:600;-webkit-appearance:none;}
 .note{font-size:12px;color:var(--text2);background:var(--bg2);border-radius:10px;padding:10px 14px;margin-top:8px;line-height:1.6;}
+.code-block{background:var(--bg3);border-radius:10px;padding:12px 14px;font-size:11px;font-family:ui-monospace,Menlo,monospace;color:var(--text);overflow-x:auto;white-space:pre;margin-top:8px;line-height:1.55;border:0.5px solid var(--border);}
+.copy-code-btn{margin-top:8px;padding:9px 18px;background:none;border:0.5px solid var(--purple);border-radius:10px;color:var(--purple);font-size:13px;font-weight:600;cursor:pointer;-webkit-appearance:none;width:100%;}
+.copy-code-btn:active{background:var(--purple-light);}
+.step-list{margin-top:8px;padding:10px 14px;background:var(--bg2);border-radius:10px;}
+.step-list li{font-size:12px;color:var(--text2);line-height:1.8;margin-left:16px;}
 input[type=file]{display:none;}
 </style>
 </head>
@@ -179,8 +181,6 @@ input[type=file]{display:none;}
     <div class="progress-track">
       <div class="progress-bar" id="prog-bar" style="width:25%;"></div>
     </div>
-
-    <!-- 上部：質問・画像（スクロール可能） -->
     <div class="q-scroll" id="q-scroll">
       <div class="q-label" id="q-label">質問 1</div>
       <div class="q-text" id="q-text"></div>
@@ -188,8 +188,6 @@ input[type=file]{display:none;}
         <img id="q-image" src="" alt="">
       </div>
     </div>
-
-    <!-- 下部：テキストエリア＋ボタン（画面下固定） -->
     <div class="entry-bottom">
       <div class="q-hint">
         <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 3.27-3.32 5.8-6.91 5.8s-6.42-2.53-6.91-5.8H2.09C2.6 15.34 6.02 18.35 10 18.91V22h4v-3.09c3.98-.56 7.4-3.57 7.91-7.91h-2z"/></svg>
@@ -205,11 +203,25 @@ input[type=file]{display:none;}
 
   <!-- DONE -->
   <div class="screen" id="sc-done">
-    <div class="done-wrap done">
-      <div class="done-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
-      <h2>保存しました！</h2>
-      <p>今日の日記を記録しました。<br>お疲れさまでした。</p>
-      <button class="done-btn" onclick="tab('home')">ホームへ戻る</button>
+    <div class="done-scroll">
+      <div class="done">
+        <div class="done-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+        <h2>保存しました！</h2>
+        <p>今日の日記を記録しました。<br>お疲れさまでした。</p>
+        <div class="widget-done" id="widget-done" style="display:none;">
+          <div class="widget-done-title">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:var(--purple);"><path d="M17 1H7c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-5 21c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5-4H7V4h10v14z"/></svg>
+            明日のウィジェット
+          </div>
+          <div class="widget-answer-preview" id="widget-answer-preview"></div>
+          <button class="widget-update-btn" onclick="openWidget()">
+            <svg viewBox="0 0 24 24"><path d="M17 1H7c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-5 21c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5-4H7V4h10v14z"/></svg>
+            ウィジェットを更新する
+          </button>
+          <div class="widget-hint">タップするとショートカットが起動して<br>ウィジェットの内容が更新されます</div>
+        </div>
+        <button class="done-btn" onclick="tab('home')">ホームへ戻る</button>
+      </div>
     </div>
   </div>
 
@@ -246,7 +258,32 @@ input[type=file]{display:none;}
             <button onclick="addQ()">＋ 質問を追加</button>
           </div>
         </div>
-        <div class="note">各質問に画像を設定できます。日記入力中に画像が上部に表示されます。</div>
+        <div class="note">📱 のチップを押すと、その質問の回答をウィジェットに表示できます。ウィジェット質問は1つだけ設定できます。</div>
+      </div>
+      <div class="ssec">
+        <div class="shead">ウィジェット連携</div>
+        <div class="scard">
+          <div class="srow">
+            <span class="slab">ショートカット名</span>
+            <input type="text" class="sinput" id="shortcut-name-input" value="" placeholder="日記ウィジェット" onchange="S.widgetShortcutName=this.value.trim()||'日記ウィジェット';save();">
+          </div>
+        </div>
+        <div class="note" style="margin-bottom:12px;">
+          <strong>セットアップ手順</strong><br>
+          ① Scriptableアプリをインストール<br>
+          ② 下のコードをScriptableに貼り付けて「widget_diary」として保存<br>
+          ③ iOSショートカットを新規作成（名前：日記ウィジェット）<br>
+          ④ ショートカットの処理：「ショートカットの入力を受け取る」→「ファイルを保存」<br>
+          　 保存先：iCloud Drive > Scriptable > widget_tomorrow.txt（上書きON）<br>
+          ⑤ Scriptableウィジェットをホーム画面に追加して「widget_diary」を選択
+        </div>
+        <div style="padding:0 0 8px;">
+          <div style="font-size:12px;color:var(--text2);padding:0 16px 6px;">Scriptableウィジェットコード</div>
+          <div class="code-block" id="scriptable-code-block"></div>
+          <div style="padding:0 16px 12px;">
+            <button class="copy-code-btn" onclick="copyScriptableCode()">コードをコピー</button>
+          </div>
+        </div>
       </div>
       <div class="ssec">
         <div class="shead">データ</div>
@@ -280,15 +317,59 @@ input[type=file]{display:none;}
 <script>
 const SK='vdiary_v6';
 const DAYS=['日','月','火','水','木','金','土'];
+
+const SCRIPTABLE_CODE = `// 音声日記 - 明日やりたいことウィジェット（小サイズ）
+const fm = FileManager.iCloud();
+const path = fm.joinPath(fm.documentsDirectory(), "widget_tomorrow.txt");
+if (fm.fileExists(path)) {
+  await fm.downloadFileFromiCloud(path);
+}
+const text = fm.fileExists(path)
+  ? fm.readString(path)
+  : "まだデータがありません";
+
+const w = new ListWidget();
+const g = new LinearGradient();
+g.colors = [new Color("#7F77DD"), new Color("#534AB7")];
+g.locations = [0, 1];
+w.backgroundGradient = g;
+w.setPadding(12, 13, 10, 13);
+
+const label = w.addText("明日やりたいこと");
+label.textColor = new Color("#ffffff", 0.6);
+label.font = Font.boldSystemFont(9);
+
+w.addSpacer(4);
+
+const body = w.addText(text);
+body.textColor = Color.white();
+body.font = Font.systemFont(13);
+body.lineLimit = 0;
+
+w.addSpacer();
+
+const d = new Date();
+const dateStr = \`\${d.getMonth()+1}/\${d.getDate()} 更新\`;
+const footer = w.addText(dateStr);
+footer.textColor = new Color("#ffffff", 0.35);
+footer.font = Font.systemFont(8);
+
+Script.setWidget(w);
+Script.complete();`;
+
 let S={
   questions:[
     {text:'今日、一番よかったことは何ですか？',img:''},
     {text:'今日、難しかったことや改善したいことは？',img:''},
     {text:'今日の感情・気分を一言で表すと？',img:''},
+    {text:'明日やりたいこと。',img:'',widget:true},
     {text:'明日の自分へ一言。',img:''}
   ],
-  logs:[],notifOn:false,notifTime:'22:00'
+  logs:[],notifOn:false,notifTime:'22:00',
+  widgetShortcutName:'日記ウィジェット',
+  lastWidgetAnswer:''
 };
+
 function load(){
   try{
     const s=localStorage.getItem(SK);
@@ -296,6 +377,8 @@ function load(){
       const p=JSON.parse(s);
       if(p.questions&&typeof p.questions[0]==='string') p.questions=p.questions.map(t=>({text:t,img:''}));
       S={...S,...p};
+      if(!S.widgetShortcutName) S.widgetShortcutName='日記ウィジェット';
+      if(S.lastWidgetAnswer===undefined) S.lastWidgetAnswer='';
     }
   }catch(e){}
 }
@@ -321,6 +404,7 @@ function initUI(){
   document.getElementById('today-label').textContent=(d.getMonth()+1)+'月'+d.getDate()+'日（'+DAYS[d.getDay()]+'）';
   function tick(){const n=new Date();document.getElementById('sbar-time').textContent=pad(n.getHours())+':'+pad(n.getMinutes());}
   tick();setInterval(tick,15000);
+  document.getElementById('scriptable-code-block').textContent=SCRIPTABLE_CODE;
 }
 function isSameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}
 function pad(n){return String(n).padStart(2,'0');}
@@ -338,26 +422,22 @@ function startEntry(){
 function showQ(){
   const total=S.questions.length;
   const q=S.questions[curQ];
-  document.getElementById('q-label').textContent='質問 '+(curQ+1)+' / '+total;
+  const isWidget=!!q.widget;
+  const labelEl=document.getElementById('q-label');
+  labelEl.innerHTML='質問 '+(curQ+1)+' / '+total+(isWidget?' <span class="widget-tag">📱 ウィジェット</span>':'');
   document.getElementById('q-text').textContent=q.text;
   document.getElementById('entry-prog').textContent=(curQ+1)+' / '+total;
   document.getElementById('prog-bar').style.width=(((curQ+1)/total)*100)+'%';
   document.getElementById('answer-area').value=sessionAnswers[curQ];
-
   const wrap=document.getElementById('q-image-wrap');
   const img=document.getElementById('q-image');
   if(q.img){img.src=q.img;wrap.style.display='block';}
   else{wrap.style.display='none';img.src='';}
-
   const nextBtn=document.getElementById('btn-next-q');
   if(curQ>=total-1){nextBtn.textContent='保存する ✓';nextBtn.className='btn-next-q save';}
   else{nextBtn.textContent='次の質問へ ›';nextBtn.className='btn-next-q';}
   document.getElementById('btn-prev').style.visibility=curQ===0?'hidden':'visible';
-
-  // 質問エリアを先頭にスクロール
   document.getElementById('q-scroll').scrollTop=0;
-
-  // テキストエリアにフォーカス
   setTimeout(()=>document.getElementById('answer-area').focus(),300);
 }
 
@@ -370,16 +450,47 @@ function prevQ(){
   sessionAnswers[curQ]=document.getElementById('answer-area').value.trim();
   if(curQ>0){curQ--;showQ();}
 }
+
 function saveEntry(){
   const now=new Date();
   const secs=Math.round((now-entryStart)/1000);
-  const entry={id:Date.now(),date:now.toISOString(),duration:secs,qas:S.questions.map((q,i)=>({q:q.text,a:sessionAnswers[i]||''}))};
+  const entry={id:Date.now(),date:now.toISOString(),duration:secs,qas:S.questions.map((q,i)=>({q:q.text,a:sessionAnswers[i]||'',widget:!!q.widget}))};
   S.logs.unshift(entry);
   if(S.logs.length>30)S.logs=S.logs.slice(0,30);
-  save();tab('done');
+  const widgetIdx=S.questions.findIndex(q=>q.widget);
+  S.lastWidgetAnswer=(widgetIdx>=0&&sessionAnswers[widgetIdx])?sessionAnswers[widgetIdx]:'';
+  save();
+  tab('done');
+  updateDoneWidget();
 }
 
-/* Image upload */
+function updateDoneWidget(){
+  const section=document.getElementById('widget-done');
+  const preview=document.getElementById('widget-answer-preview');
+  if(S.lastWidgetAnswer){
+    preview.textContent=S.lastWidgetAnswer;
+    section.style.display='block';
+  } else {
+    section.style.display='none';
+  }
+}
+
+function openWidget(){
+  const ans=S.lastWidgetAnswer;
+  if(!ans)return;
+  if(navigator.clipboard){navigator.clipboard.writeText(ans).catch(()=>{});}
+  const name=encodeURIComponent(S.widgetShortcutName||'日記ウィジェット');
+  const text=encodeURIComponent(ans);
+  window.location.href='shortcuts://run-shortcut?name='+name+'&input=text&text='+text;
+}
+
+function toggleWidgetQ(i){
+  const wasWidget=S.questions[i].widget;
+  S.questions.forEach(q=>q.widget=false);
+  if(!wasWidget) S.questions[i].widget=true;
+  save();renderSettings();
+}
+
 function triggerImgUpload(idx){
   imgUploadTarget=idx;
   document.getElementById('img-input').value='';
@@ -393,8 +504,7 @@ document.getElementById('img-input').addEventListener('change',function(e){
     const img=new Image();
     img.onload=function(){
       const canvas=document.createElement('canvas');
-      const MAX=800;
-      let w=img.width,h=img.height;
+      const MAX=800;let w=img.width,h=img.height;
       if(w>h&&w>MAX){h=Math.round(h*MAX/w);w=MAX;}
       else if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}
       canvas.width=w;canvas.height=h;
@@ -408,7 +518,16 @@ document.getElementById('img-input').addEventListener('change',function(e){
 });
 function removeImg(idx){S.questions[idx].img='';save();renderSettings();}
 
-/* Render */
+function copyScriptableCode(){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(SCRIPTABLE_CODE).then(()=>{
+      const btn=document.querySelector('.copy-code-btn');
+      const orig=btn.textContent;btn.textContent='コピーしました ✓';
+      setTimeout(()=>btn.textContent=orig,2000);
+    }).catch(()=>alert('コピーできませんでした。コードを手動で選択してください。'));
+  }
+}
+
 function renderHomeList(){
   const list=document.getElementById('hlist'),empty=document.getElementById('hempty');
   const d=new Date();
@@ -435,7 +554,10 @@ function renderLog(){
     const card=document.createElement('div');card.className='log-entry';
     let h='<div class="log-date"><span>'+(d.getMonth()+1)+'月'+d.getDate()+'日（'+DAYS[d.getDay()]+'）　'+pad(d.getHours())+':'+pad(d.getMinutes())+'</span><button class="log-del" onclick="deleteLog('+log.id+')">削除</button></div>';
     (log.qas||[]).forEach(qa=>{
-      if(qa.a)h+='<div class="log-qa"><div class="log-q">'+qa.q+'</div><div class="log-a">'+qa.a+'</div></div>';
+      if(qa.a){
+        const widgetDot=qa.widget?'<span class="widget-dot"></span>':'';
+        h+='<div class="log-qa"><div class="log-q">'+widgetDot+qa.q+'</div><div class="log-a">'+qa.a+'</div></div>';
+      }
     });
     card.innerHTML=h;list.appendChild(card);
   });
@@ -447,16 +569,19 @@ function renderSettings(){
   S.questions.forEach((q,i)=>{
     const div=document.createElement('div');div.className='qi';
     const hasImg=!!q.img;
+    const isWidget=!!q.widget;
     const imgHTML=hasImg
       ?'<img class="qi-img" src="'+q.img+'" alt="" onclick="triggerImgUpload('+i+')">'
       :'<div class="qi-img-placeholder" onclick="triggerImgUpload('+i+')"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg></div>';
+    const badgeHTML=isWidget?'<span class="qi-widget-badge">📱 ウィジェット</span>':'';
     div.innerHTML=
       '<div class="qi-top">'+imgHTML+
-      '<div class="qi-body"><div class="qitxt">'+q.text+'</div><div class="qiact">'+
+      '<div class="qi-body"><div class="qitxt">'+q.text+badgeHTML+'</div><div class="qiact">'+
       '<button class="chip" onclick="mqUp('+i+')">↑</button>'+
       '<button class="chip" onclick="mqDown('+i+')">↓</button>'+
       '<button class="chip img" onclick="triggerImgUpload('+i+')">'+(hasImg?'画像変更':'＋画像')+'</button>'+
       (hasImg?'<button class="chip img-del" onclick="removeImg('+i+')">画像削除</button>':'')+
+      '<button class="chip widget'+(isWidget?' active':'')+'" onclick="toggleWidgetQ('+i+')">'+(isWidget?'📱 解除':'📱 ウィジェット')+'</button>'+
       '<button class="chip del" onclick="mqDel('+i+')">削除</button>'+
       '</div></div></div>';
     ql.appendChild(div);
@@ -464,6 +589,7 @@ function renderSettings(){
   document.getElementById('notif-time').value=S.notifTime||'22:00';
   document.getElementById('notif-tog').className='tog'+(S.notifOn?'':' off');
   document.getElementById('data-count').textContent=S.logs.length+'件';
+  document.getElementById('shortcut-name-input').value=S.widgetShortcutName||'日記ウィジェット';
 }
 
 function toggleNotif(){S.notifOn=!S.notifOn;save();renderSettings();}
