@@ -208,6 +208,8 @@ input[type=file]{display:none;}
         <div class="done-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
         <h2>保存しました！</h2>
         <p>今日の日記を記録しました。<br>お疲れさまでした。</p>
+
+        <!-- ウィジェット連携セクション（ウィジェット質問に回答があるときのみ表示） -->
         <div class="widget-done" id="widget-done" style="display:none;">
           <div class="widget-done-title">
             <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:var(--purple);"><path d="M17 1H7c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm-5 21c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5-4H7V4h10v14z"/></svg>
@@ -220,6 +222,7 @@ input[type=file]{display:none;}
           </button>
           <div class="widget-hint">タップするとショートカットが起動して<br>ウィジェットの内容が更新されます</div>
         </div>
+
         <button class="done-btn" onclick="tab('home')">ホームへ戻る</button>
       </div>
     </div>
@@ -241,6 +244,7 @@ input[type=file]{display:none;}
   <div class="screen" id="sc-settings">
     <div class="scroll">
       <div style="margin-bottom:16px;padding-top:4px;"><h2 style="font-size:20px;font-weight:700;color:var(--text);">設定</h2></div>
+
       <div class="ssec">
         <div class="shead">通知</div>
         <div class="scard">
@@ -249,6 +253,7 @@ input[type=file]{display:none;}
         </div>
         <div class="note">iPhoneの「ショートカット」アプリ → オートメーション → 時刻 → 「URLを開く」でこのアプリのURLを設定してください。</div>
       </div>
+
       <div class="ssec">
         <div class="shead">質問リスト</div>
         <div class="scard">
@@ -260,6 +265,7 @@ input[type=file]{display:none;}
         </div>
         <div class="note">📱 のチップを押すと、その質問の回答をウィジェットに表示できます。ウィジェット質問は1つだけ設定できます。</div>
       </div>
+
       <div class="ssec">
         <div class="shead">ウィジェット連携</div>
         <div class="scard">
@@ -285,6 +291,7 @@ input[type=file]{display:none;}
           </div>
         </div>
       </div>
+
       <div class="ssec">
         <div class="shead">データ</div>
         <div class="scard">
@@ -318,7 +325,7 @@ input[type=file]{display:none;}
 const SK='vdiary_v6';
 const DAYS=['日','月','火','水','木','金','土'];
 
-const SCRIPTABLE_CODE = `// 音声日記 - 明日やりたいことウィジェット（小サイズ）
+const SCRIPTABLE_CODE = `// 音声日記 - 明日やりたいことウィジェット
 const fm = FileManager.iCloud();
 const path = fm.joinPath(fm.documentsDirectory(), "widget_tomorrow.txt");
 if (fm.fileExists(path)) {
@@ -335,8 +342,9 @@ g.locations = [0, 1];
 w.backgroundGradient = g;
 w.setPadding(12, 13, 10, 13);
 
+const d = new Date();
 const label = w.addText("明日やりたいこと");
-label.textColor = new Color("#ffffff", 0.6);
+label.textColor = new Color("#ffffff", 0.65);
 label.font = Font.boldSystemFont(9);
 
 w.addSpacer(4);
@@ -348,7 +356,6 @@ body.lineLimit = 0;
 
 w.addSpacer();
 
-const d = new Date();
 const dateStr = \`\${d.getMonth()+1}/\${d.getDate()} 更新\`;
 const footer = w.addText(dateStr);
 footer.textColor = new Color("#ffffff", 0.35);
@@ -377,6 +384,7 @@ function load(){
       const p=JSON.parse(s);
       if(p.questions&&typeof p.questions[0]==='string') p.questions=p.questions.map(t=>({text:t,img:''}));
       S={...S,...p};
+      // 既存データにwidgetShortcutName/lastWidgetAnswerがない場合のデフォルト
       if(!S.widgetShortcutName) S.widgetShortcutName='日記ウィジェット';
       if(S.lastWidgetAnswer===undefined) S.lastWidgetAnswer='';
     }
@@ -429,10 +437,12 @@ function showQ(){
   document.getElementById('entry-prog').textContent=(curQ+1)+' / '+total;
   document.getElementById('prog-bar').style.width=(((curQ+1)/total)*100)+'%';
   document.getElementById('answer-area').value=sessionAnswers[curQ];
+
   const wrap=document.getElementById('q-image-wrap');
   const img=document.getElementById('q-image');
   if(q.img){img.src=q.img;wrap.style.display='block';}
   else{wrap.style.display='none';img.src='';}
+
   const nextBtn=document.getElementById('btn-next-q');
   if(curQ>=total-1){nextBtn.textContent='保存する ✓';nextBtn.className='btn-next-q save';}
   else{nextBtn.textContent='次の質問へ ›';nextBtn.className='btn-next-q';}
@@ -457,8 +467,11 @@ function saveEntry(){
   const entry={id:Date.now(),date:now.toISOString(),duration:secs,qas:S.questions.map((q,i)=>({q:q.text,a:sessionAnswers[i]||'',widget:!!q.widget}))};
   S.logs.unshift(entry);
   if(S.logs.length>30)S.logs=S.logs.slice(0,30);
+
+  // ウィジェット質問の回答を保存
   const widgetIdx=S.questions.findIndex(q=>q.widget);
   S.lastWidgetAnswer=(widgetIdx>=0&&sessionAnswers[widgetIdx])?sessionAnswers[widgetIdx]:'';
+
   save();
   tab('done');
   updateDoneWidget();
@@ -475,22 +488,28 @@ function updateDoneWidget(){
   }
 }
 
-function openWidget(){
+async function openWidget(){
   const ans=S.lastWidgetAnswer;
   if(!ans)return;
-  if(navigator.clipboard){navigator.clipboard.writeText(ans).catch(()=>{});}
+  // クリップボードへ書き込み完了を待ってからショートカットを起動
+  try{
+    await navigator.clipboard.writeText(ans);
+  }catch(e){}
   const name=encodeURIComponent(S.widgetShortcutName||'日記ウィジェット');
-  const text=encodeURIComponent(ans);
-  window.location.href='shortcuts://run-shortcut?name='+name+'&input=text&text='+text;
+  setTimeout(()=>{
+    window.location.href='shortcuts://run-shortcut?name='+name;
+  },300);
 }
 
 function toggleWidgetQ(i){
+  // タップしたものがすでにウィジェットなら解除、そうでなければ切り替え
   const wasWidget=S.questions[i].widget;
   S.questions.forEach(q=>q.widget=false);
   if(!wasWidget) S.questions[i].widget=true;
   save();renderSettings();
 }
 
+/* Image upload */
 function triggerImgUpload(idx){
   imgUploadTarget=idx;
   document.getElementById('img-input').value='';
@@ -528,6 +547,7 @@ function copyScriptableCode(){
   }
 }
 
+/* Render */
 function renderHomeList(){
   const list=document.getElementById('hlist'),empty=document.getElementById('hempty');
   const d=new Date();
